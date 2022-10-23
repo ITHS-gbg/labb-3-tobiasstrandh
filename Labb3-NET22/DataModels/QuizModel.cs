@@ -3,19 +3,23 @@ using System.Collections.Generic;
 
 namespace Labb3_NET22.DataModels;   
 
-public class Quiz
+public class QuizModel 
 {
-    private IEnumerable<Question> _questions;
+    private IEnumerable<QuestionModel> _questions;
+    public IEnumerable<QuestionModel> Questions => _questions;
+
     private string _title = string.Empty;
-    public IEnumerable<Question> Questions => _questions;
     public string Title => _title;
 
-    public Quiz()
+    public QuizModel()
     {
-        _questions = new List<Question>();
+        _questions = new List<QuestionModel>();
+
+        
+
     }
 
-    public Question GetRandomQuestion()
+    public QuestionModel GetRandomQuestion()
     {
         throw new NotImplementedException("A random Question needs to be returned here!");
     }
@@ -29,4 +33,9 @@ public class Quiz
     {
         throw new NotImplementedException("Question at requested index need to be removed here!");
     }
+
+    
+
+    
+
 }

@@ -9,7 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DataModels\" />
     <Folder Include="ViewModel\" />
   </ItemGroup>
 

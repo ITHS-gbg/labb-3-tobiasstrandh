@@ -4,9 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Labb3_NET22"
+        xmlns:views="clr-namespace:Labb3_NET22.View"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="801">
     <Grid>
-
+        <views:StartView DataContext="{Binding CurrentViewModel}" />
     </Grid>
 </Window>
