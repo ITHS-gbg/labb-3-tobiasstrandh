@@ -8,6 +8,6 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="801">
     <Grid>
-        <views:StartView DataContext="{Binding CurrentViewModel}" />
+        <views:CreateQuizView DataContext="{Binding CurrentViewModel}" />
     </Grid>
 </Window>
