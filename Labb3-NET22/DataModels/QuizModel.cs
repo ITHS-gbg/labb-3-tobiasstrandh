@@ -38,9 +38,9 @@ public class QuizModel
     public void AddQuestion(string statement, int correctAnswer, params string[] answers)
     {
         var nyfråga = new QuestionModel(statement, answers, correctAnswer);
-       _questions.ToList().Add(nyfråga);
+        _questions = _questions.Concat(new[] { nyfråga });
 
-        throw new NotImplementedException("Question need to be instantiated and added to list of questions here!");
+        //throw new NotImplementedException("Question need to be instantiated and added to list of questions here!");
     }
 
     public void RemoveQuestion(int index)

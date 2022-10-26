@@ -26,7 +26,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <TextBox
+        <!--<TextBox
             Grid.Row="3"
             Grid.Column="0"
             FontSize="18"
@@ -34,7 +34,7 @@
             >
 
 
-        </TextBox>
+        </TextBox>-->
 
         <TextBox
             Grid.Row="1"
@@ -55,7 +55,9 @@
         <TextBox
             Grid.Row="3"
             Grid.Column="1"
-            FontSize="18">
+            FontSize="18"
+            Text="{Binding QuizStatment, UpdateSourceTrigger=PropertyChanged}"
+            >
             
         </TextBox>
 
@@ -69,7 +71,8 @@
         <TextBox
             Grid.Row="5"
             Grid.Column="0"
-            FontSize="18">
+            FontSize="18"
+            Text="{Binding QuizAnswerOne, UpdateSourceTrigger=PropertyChanged}">
 
         </TextBox>
 
@@ -83,7 +86,9 @@
         <TextBox
             Grid.Row="5"
             Grid.Column="1"
-            FontSize="18">
+            FontSize="18"
+            Text="{Binding QuizAnswerTwo, UpdateSourceTrigger=PropertyChanged}"
+            >
             
         </TextBox>
 
@@ -97,7 +102,8 @@
         <TextBox
             Grid.Row="5"
             Grid.Column="2"
-            FontSize="18">
+            FontSize="18"
+            Text="{Binding QuizAnswerThree, UpdateSourceTrigger=PropertyChanged}">
             
         </TextBox>
 
@@ -110,12 +116,21 @@
 
         <TextBlock
             Grid.Row="6"
+            Grid.ColumnSpan="2"
             Grid.Column="1"
-            FontSize="18" HorizontalAlignment="Center">
-            Chose the correct answer
+            FontSize="18" HorizontalAlignment="Left">
+            Chose the correct num for answer (0 = 1 , 1 = 2 , 2 = 3) 
         </TextBlock>
 
-        <CheckBox
+        <TextBox
+            Grid.Row="7"
+            Grid.Column="1"
+            FontSize="18"
+            Text="{Binding QuizCorrectAnswer, UpdateSourceTrigger=PropertyChanged}">
+
+        </TextBox>
+
+        <!--<CheckBox
             Grid.Row="7"
             Grid.Column="1" Width="50" Height="50"
             
@@ -131,7 +146,7 @@
             Grid.Row="7"
             Grid.Column="2" Width="50" Height="50"
             
-        ></CheckBox>
+        ></CheckBox>-->
 
 
         <Button Grid.Row="1"
@@ -142,7 +157,7 @@
         <Button Grid.Row="1"
                 Grid.Column="0"
                 FontSize="10"
-                Command="{Binding UpdateCommand}"
+                Command="{Binding SendQuestion}"
         >Save Quiz and  not make new questions to this quiz</Button>
 
     </Grid>
