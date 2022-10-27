@@ -32,11 +32,37 @@ public class QuizModel
 
     public QuestionModel GetRandomQuestion()
     {
-        throw new NotImplementedException("A random Question needs to be returned here!");
+        var db = new QuizModel();
+
+        var output = db.Questions
+            .Where(p => p.Statement.Contains("hej"))
+            .Select(p => p);
+
+        var Q = string.Empty;
+
+        foreach (var VARIABLE in output)
+        {
+            VARIABLE.Statement = Q;
+        }
+
+        //throw new NotImplementedException("A random Question needs to be returned here!");
+    }
+
+     static QuestionModel SendQ()
+    {
+        var db = new QuizModel();
+
+        var output = db.Questions
+            .Where(p => p.Statement.Contains("hej"))
+            .Select(p => p);
+
+        return output;
     }
 
     public void AddQuestion(string statement, int correctAnswer, params string[] answers)
     {
+
+
         var nyfråga = new QuestionModel(statement, answers, correctAnswer);
         _questions = _questions.Concat(new[] { nyfråga });
 

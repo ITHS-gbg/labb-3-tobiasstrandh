@@ -1,13 +1,27 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Labb3_NET22.Managers;
 
 namespace Labb3_NET22.ViewModel;
+ 
 
-public class MainViewModel
+public class MainViewModel : ObservableObject
 {
-    public ObservableObject CurrentViewModel { get; }
+    private readonly NavigationManager _navigationManager;
+    private readonly DataManger _dataManager;
 
-    public MainViewModel(ObservableObject currentViewModel)
+    public ObservableObject CurrentViewModel => _navigationManager.CurrentViewModel;
+
+
+    public MainViewModel(NavigationManager navigationManager, DataManger dataManager)
     {
-        CurrentViewModel = currentViewModel;
+        _navigationManager = navigationManager;
+        _dataManager = dataManager;
+
+        _navigationManager.CurrentViewModelChanged += CurrentViewModelChanged;
+    }
+
+    private void CurrentViewModelChanged()
+    {
+        OnPropertyChanged(nameof(CurrentViewModel));
     }
 }

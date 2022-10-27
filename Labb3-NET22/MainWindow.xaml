@@ -5,9 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Labb3_NET22"
         xmlns:views="clr-namespace:Labb3_NET22.View"
+        xmlns:viewmodels="clr-namespace:Labb3_NET22.ViewModel"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="801">
     <Grid>
-        <views:CreateQuizView DataContext="{Binding CurrentViewModel}" />
+        
+
+        <Grid.Resources>
+            <DataTemplate DataType="{x:Type viewmodels:CreateQuizViewModel}">
+                <views:CreateQuizView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewmodels:StartViewModel}">
+                <views:StartView />
+            </DataTemplate>
+        </Grid.Resources>
+
+        <ContentControl Content="{Binding CurrentViewModel}" />
+
     </Grid>
 </Window>

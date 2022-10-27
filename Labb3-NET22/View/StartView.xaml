@@ -34,7 +34,9 @@
         <Button
             Grid.Row="4"
             Grid.Column="1"
-            FontSize="36">
+            FontSize="36"
+            Command="{Binding NavigateCreateQuizCommand}"
+            >
             New Quiz
         </Button>
 
