@@ -21,11 +21,11 @@ namespace Labb3_NET22
 
             //Här instansieras våran Model och ViewModel
             var quizModel = new QuizModel();
-            var createQuizViewModel = new CreateQuizViewModel(quizModel);
+            var StartViewModel = new StartViewModel(quizModel);
 
             //Instansierar fönstret och sätter DataContext till en ny instans av MainViewModel
             //och skickar med demoViewModel som instansierats ovanför
-            var mainWindow = new MainWindow() { DataContext = new MainViewModel(createQuizViewModel) };
+            var mainWindow = new MainWindow() { DataContext = new MainViewModel(StartViewModel) };
 
             //Visar fönstret.
             mainWindow.Show();
