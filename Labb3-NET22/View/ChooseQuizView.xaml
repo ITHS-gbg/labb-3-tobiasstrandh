@@ -40,9 +40,17 @@
         <Button
             Grid.Row="2"
             Grid.Column="1"
-            Command="{Binding GoToQuizViewCommand}"
+            Command="{Binding SaveTitleCommand}"
             FontSize="10">
             Press here after you have write in the box above.
+        </Button>
+
+        <Button
+            Grid.Row="3"
+            Grid.Column="1"
+            Command="{Binding GoToQuizViewCommand}"
+            FontSize="10">
+            Press here after you have press the button above.
         </Button>
 
     </Grid>

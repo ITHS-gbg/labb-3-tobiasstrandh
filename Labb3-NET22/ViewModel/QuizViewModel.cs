@@ -15,4 +15,15 @@ public class QuizViewModel : ObservableObject
 
         _navigationManager = navigationManager;
     }
+
+    private string _quizStatment;
+
+    public string QuizStatment
+    {
+        get { return _quizStatment = _quizModel.RandomQuestion.Statement; }
+        set
+        {
+            SetProperty(ref _quizStatment, value);
+        }
+    }
 }

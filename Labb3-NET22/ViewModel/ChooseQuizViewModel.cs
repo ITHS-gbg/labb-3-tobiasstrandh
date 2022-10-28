@@ -13,6 +13,8 @@ public class ChooseQuizViewModel : ObservableObject
 
     public ICommand ReturnToStartViewCommand { get; }
     public ICommand GoToQuizViewCommand { get; }
+
+    public ICommand SaveTitleCommand { get; }
     public ChooseQuizViewModel(QuizModel quizModel, NavigationManager navigationManager)
     {
 
@@ -22,7 +24,15 @@ public class ChooseQuizViewModel : ObservableObject
 
         ReturnToStartViewCommand = new RelayCommand(() => _navigationManager.CurrentViewModel = new StartViewModel(_quizModel, _navigationManager));
 
+        SaveTitleCommand = new RelayCommand(() => GoToQuizView());
         GoToQuizViewCommand = new RelayCommand(() => _navigationManager.CurrentViewModel = new QuizViewModel(_quizModel, _navigationManager));
+        
+    }
+
+    public void GoToQuizView()
+    {
+        _quizModel.DownloadJson(QuizTitle);
+       
     }
 
 

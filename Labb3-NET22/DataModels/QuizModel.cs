@@ -59,6 +59,41 @@ public class QuizModel
         
     }
 
+    public async Task DownloadJson(string  qTitle)
+    {
+        qTitle += $".json";
+
+        _title = qTitle;
+
+        await Task.Run(() =>
+        {
+            var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), Title);
+
+            if (File.Exists(path))
+            {
+                var text = string.Empty;
+                string? line = string.Empty;
+
+
+                using StreamReader sr = new StreamReader(path);
+
+                while ((line = sr.ReadLine()) != null)
+                {
+                    text += line;
+                }
+
+                Quizquestions = JsonSerializer.Deserialize<List<QuestionModel>>(text)!;
+
+
+            }
+        });
+
+        GetRandomQuestion();
+    }
+
+    public QuestionModel RandomQuestion { get; set; }
+    public List<QuestionModel> Quizquestions { get; set; }
+
     public void AddTitle(string qTitle)
     {
         qTitle += $".json";
@@ -77,17 +112,15 @@ public class QuizModel
         //var db = new QuizModel();
 
         //var output = db.Questions
-        //    .Where(p => p.Statement.Contains('a'))
+        //    .Where(p => p.Statement.r
         //    .Select(p => p);
 
-        //foreach (var VARIABLE in output)
-        //{
-        //    VARIABLE.Statement.Contains('a');
-        //}
+        var rand = new Random();
+        RandomQuestion = Quizquestions[rand.Next(Quizquestions.Count)];
 
-        
+        return RandomQuestion;
 
-        throw new NotImplementedException("A random Question needs to be returned here!");
+        //throw new NotImplementedException("A random Question needs to be returned here!");
     }
 
     public void SendQ()
