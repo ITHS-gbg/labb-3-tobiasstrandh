@@ -72,7 +72,7 @@
             Grid.Row="5"
             Grid.Column="0"
             FontSize="18"
-            Text="{Binding QuizAnswers[0], UpdateSourceTrigger=PropertyChanged}">
+            Text="{Binding QuizAnswerOne, UpdateSourceTrigger=PropertyChanged}">
 
         </TextBox>
 
@@ -87,7 +87,7 @@
             Grid.Row="5"
             Grid.Column="1"
             FontSize="18"
-            Text="{Binding QuizAnswers[1], UpdateSourceTrigger=PropertyChanged}"
+            Text="{Binding QuizAnswerTwo, UpdateSourceTrigger=PropertyChanged}"
             >
             
         </TextBox>
@@ -103,7 +103,7 @@
             Grid.Row="5"
             Grid.Column="2"
             FontSize="18"
-            Text="{Binding QuizAnswers[2], UpdateSourceTrigger=PropertyChanged}">
+            Text="{Binding QuizAnswerThree, UpdateSourceTrigger=PropertyChanged}">
             
         </TextBox>
 

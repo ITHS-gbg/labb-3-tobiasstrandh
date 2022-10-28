@@ -26,7 +26,7 @@ public class CreateQuizViewModel : ObservableObject
 
         SendQuestion = new RelayCommand(AddQ);
 
-        CreateJson = new RelayCommand(() => _quizModel.Json());
+       //CreateJson = new RelayCommand(() => _quizModel.Json());
 
         ReturnToStartViewCommand = new RelayCommand(() => _navigationManager.CurrentViewModel = new StartViewModel(_quizModel, _navigationManager));
     }
@@ -42,13 +42,18 @@ public class CreateQuizViewModel : ObservableObject
 
     void AddQ()
     {
-        //var QuizAnswers = new string[] { QuizAnswerOne, QuizAnswerTwo, QuizAnswerThree };
+        _quizModel.AddTitle(QuizTitle);
+
+        var QuizAnswers = new string[] { QuizAnswerOne, QuizAnswerTwo, QuizAnswerThree };
 
         Correct();
 
         _quizModel.AddQuestion(QuizStatment, QuizCorrectAnswer, QuizAnswers);
+
+        
     }
 
+   
     public int QuizCorrectAnswer { get; set; }
     void Correct()
     {
@@ -95,10 +100,10 @@ public class CreateQuizViewModel : ObservableObject
 
     public string QuizAnswerOne
     {
-        get { return QuizAnswers[0]; } 
+        get { return _quizAnswerOne; } 
         set
         {
-            SetProperty(ref QuizAnswers[0], value);
+            SetProperty(ref _quizAnswerOne, value);
         }
     }
 
@@ -106,10 +111,10 @@ public class CreateQuizViewModel : ObservableObject
 
     public string QuizAnswerTwo
     {
-        get { return QuizAnswers[1]; }
+        get { return _quizAnswerTwo; }
         set
         {
-            SetProperty(ref QuizAnswers[1], value);
+            SetProperty(ref _quizAnswerTwo, value);
         }
     }
 
@@ -117,10 +122,10 @@ public class CreateQuizViewModel : ObservableObject
 
     public string QuizAnswerThree
     {
-        get { return QuizAnswers[2]; }
+        get { return _quizAnswerThree; }
         set
         {
-            SetProperty(ref QuizAnswers[2], value);
+            SetProperty(ref _quizAnswerThree, value);
         }
     }
 
@@ -162,12 +167,7 @@ public class CreateQuizViewModel : ObservableObject
         }
     }
 
-    private string[] _quizAnswers = new string[3];
-
-    public string[] QuizAnswers
-    {
-        get{ return _quizAnswers; }
-    }
+    
 
     //public static void AllAnswers(string QuizAnswerOne, string QuizAnswerTwo, string QuizAnswerThree, out string[] qAnswers)
     //{
