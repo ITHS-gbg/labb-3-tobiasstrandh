@@ -1,28 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Labb3_NET22.DataModels;
 
 public class QuizModel
 {
-    public string ReverseMyText()
-    {
-        var output = string.Empty;
+    private readonly QuestionModel _questionModel;
 
-        for (int i = Title.Length - 1; i >= 0; i--)
-        {
-            output += Title[i];
-        }
-
-        return output;
-    }
+    private readonly QuizModel _quizModel;
 
     private IEnumerable<QuestionModel> _questions;
     public IEnumerable<QuestionModel> Questions => _questions;
 
     private string _title = string.Empty;
     public string Title => _title;
+
+    public async Task Json()
+    {
+        var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Quiz.json");
+
+        if (!File.Exists(path))
+        {
+            var json = JsonSerializer.Serialize(_questions, new JsonSerializerOptions() { WriteIndented = true });
+
+         
+            using StreamWriter sw = new StreamWriter(path);
+            
+            sw.WriteLine(json);
+        }
+    }
+
+
 
     public QuizModel()
     {
@@ -32,31 +45,24 @@ public class QuizModel
 
     public QuestionModel GetRandomQuestion()
     {
-        var db = new QuizModel();
+        //var db = new QuizModel();
 
-        var output = db.Questions
-            .Where(p => p.Statement.Contains("hej"))
-            .Select(p => p);
+        //var output = db.Questions
+        //    .Where(p => p.Statement.Contains('a'))
+        //    .Select(p => p);
 
-        var Q = string.Empty;
+        //foreach (var VARIABLE in output)
+        //{
+        //    VARIABLE.Statement.Contains('a');
+        //}
 
-        foreach (var VARIABLE in output)
-        {
-            VARIABLE.Statement = Q;
-        }
+        
 
-        //throw new NotImplementedException("A random Question needs to be returned here!");
+        throw new NotImplementedException("A random Question needs to be returned here!");
     }
 
-     static QuestionModel SendQ()
+    public void SendQ()
     {
-        var db = new QuizModel();
-
-        var output = db.Questions
-            .Where(p => p.Statement.Contains("hej"))
-            .Select(p => p);
-
-        return output;
     }
 
     public void AddQuestion(string statement, int correctAnswer, params string[] answers)
@@ -65,6 +71,9 @@ public class QuizModel
 
         var nyfråga = new QuestionModel(statement, answers, correctAnswer);
         _questions = _questions.Concat(new[] { nyfråga });
+       // Hej();
+
+
 
         //throw new NotImplementedException("Question need to be instantiated and added to list of questions here!");
     }

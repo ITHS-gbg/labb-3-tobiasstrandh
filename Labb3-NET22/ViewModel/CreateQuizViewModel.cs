@@ -10,7 +10,7 @@ namespace Labb3_NET22.ViewModel;
 public class CreateQuizViewModel : ObservableObject
 {
     public ICommand SendQuestion { get; }
-
+    public ICommand CreateJson { get; }
     public ICommand ReturnToStartViewCommand { get; }
 
     private readonly QuizModel _quizModel;
@@ -26,12 +26,23 @@ public class CreateQuizViewModel : ObservableObject
 
         SendQuestion = new RelayCommand(AddQ);
 
+        CreateJson = new RelayCommand(() => _quizModel.Json());
+
         ReturnToStartViewCommand = new RelayCommand(() => _navigationManager.CurrentViewModel = new StartViewModel(_quizModel, _navigationManager));
     }
 
+    private string _q;
+
+    public string Q
+    {
+        get { return _q; }
+        set { _q = value; }
+    }
+
+
     void AddQ()
     {
-        var QuizAnswers = new string[] { QuizAnswerOne, QuizAnswerTwo, QuizAnswerThree };
+        //var QuizAnswers = new string[] { QuizAnswerOne, QuizAnswerTwo, QuizAnswerThree };
 
         Correct();
 
@@ -84,21 +95,10 @@ public class CreateQuizViewModel : ObservableObject
 
     public string QuizAnswerOne
     {
-        get { return _quizAnswerOne; }
+        get { return QuizAnswers[0]; } 
         set
         {
-            SetProperty(ref _quizAnswerOne, value);
-        }
-    }
-
-    private string _quizAnswerThree;
-
-    public string QuizAnswerThree
-    {
-        get { return _quizAnswerThree; }
-        set
-        {
-            SetProperty(ref _quizAnswerThree, value);
+            SetProperty(ref QuizAnswers[0], value);
         }
     }
 
@@ -106,12 +106,25 @@ public class CreateQuizViewModel : ObservableObject
 
     public string QuizAnswerTwo
     {
-        get { return _quizAnswerTwo; }
+        get { return QuizAnswers[1]; }
         set
         {
-            SetProperty(ref _quizAnswerTwo, value);
+            SetProperty(ref QuizAnswers[1], value);
         }
     }
+
+    private string _quizAnswerThree;
+
+    public string QuizAnswerThree
+    {
+        get { return QuizAnswers[2]; }
+        set
+        {
+            SetProperty(ref QuizAnswers[2], value);
+        }
+    }
+
+    
 
     
 
@@ -149,7 +162,12 @@ public class CreateQuizViewModel : ObservableObject
         }
     }
 
+    private string[] _quizAnswers = new string[3];
 
+    public string[] QuizAnswers
+    {
+        get{ return _quizAnswers; }
+    }
 
     //public static void AllAnswers(string QuizAnswerOne, string QuizAnswerTwo, string QuizAnswerThree, out string[] qAnswers)
     //{
