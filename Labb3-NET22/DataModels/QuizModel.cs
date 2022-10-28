@@ -22,35 +22,41 @@ public class QuizModel
 
     public async Task Json()
     {
-        var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), Title);
-
-        if (!File.Exists(path))
-        {
-            var Qlist = _questions.ToList();
-
-            var json = JsonSerializer.Serialize(Questions, new JsonSerializerOptions() { WriteIndented = true });
-
-         
-            using StreamWriter sw = new StreamWriter(path);
-
-            //await Task.Delay(1);
-            sw.WriteLine(json);
-        }
-
-        else if (File.Exists(path))
-        {
+        await Task.Run(() => {
             
+            var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), Title);
 
-            var json = JsonSerializer.Serialize(_questions, new JsonSerializerOptions() { WriteIndented = true });
+            if (!File.Exists(path))
+            {
+                var Qlist = _questions.ToList();
 
-            using StreamWriter sw = new StreamWriter(path);
-
-            //using StreamWriter sw = new StreamWriter(File.Open(path, System.IO.FileMode.Append));
-
-            sw.WriteLine(json);
+                var json = JsonSerializer.Serialize(Questions, new JsonSerializerOptions() { WriteIndented = true });
 
 
-        }
+                using StreamWriter sw = new StreamWriter(path);
+
+
+                sw.WriteLine(json);
+                
+            }
+
+            else if (File.Exists(path))
+            {
+
+
+                var json = JsonSerializer.Serialize(_questions.Last(), new JsonSerializerOptions() { WriteIndented = true });
+
+                //using StreamWriter sw = new StreamWriter(path);
+
+                using StreamWriter sw = new StreamWriter(File.Open(path, System.IO.FileMode.Append));
+
+                sw.WriteLine(json);
+
+
+            }
+        });
+
+        
     }
 
     public void AddTitle(string qTitle)
@@ -93,7 +99,7 @@ public class QuizModel
 
         var nyfråga = new QuestionModel(statement, answers, correctAnswer);
         _questions = _questions.Concat(new[] { nyfråga });
-        Json();
+        //Json();
 
 
         //throw new NotImplementedException("Question need to be instantiated and added to list of questions here!");

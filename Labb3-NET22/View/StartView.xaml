@@ -27,7 +27,8 @@
         <Button
             Grid.Row="2"
             Grid.Column="1"
-            FontSize="36">
+            FontSize="36"
+            Command="{Binding NavigatePlayQuizCommand}">
             Play Quiz
         </Button>
 

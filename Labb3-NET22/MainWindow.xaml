@@ -18,6 +18,12 @@
             <DataTemplate DataType="{x:Type viewmodels:StartViewModel}">
                 <views:StartView />
             </DataTemplate>
+            <DataTemplate DataType="{x:Type viewmodels:ChooseQuizViewModel}">
+                <views:ChooseQuizView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewmodels:QuizViewModel}">
+                <views:QuizView />
+            </DataTemplate>
         </Grid.Resources>
 
         <ContentControl Content="{Binding CurrentViewModel}" />

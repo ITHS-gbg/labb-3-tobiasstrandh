@@ -26,7 +26,7 @@ public class CreateQuizViewModel : ObservableObject
 
         SendQuestion = new RelayCommand(AddQ);
 
-       //CreateJson = new RelayCommand(() => _quizModel.Json());
+       CreateJson = new RelayCommand(CreateJ);
 
         ReturnToStartViewCommand = new RelayCommand(() => _navigationManager.CurrentViewModel = new StartViewModel(_quizModel, _navigationManager));
     }
@@ -39,10 +39,16 @@ public class CreateQuizViewModel : ObservableObject
         set { _q = value; }
     }
 
+    void CreateJ()
+    {
+        _quizModel.AddTitle(QuizTitle);
+        _quizModel.Json();
+        
+    }
 
     void AddQ()
     {
-        _quizModel.AddTitle(QuizTitle);
+       
 
         var QuizAnswers = new string[] { QuizAnswerOne, QuizAnswerTwo, QuizAnswerThree };
 

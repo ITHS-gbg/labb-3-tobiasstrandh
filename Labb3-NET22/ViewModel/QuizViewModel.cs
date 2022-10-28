@@ -1,17 +1,18 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Labb3_NET22.DataModels;
+using Labb3_NET22.Managers;
 
 namespace Labb3_NET22.ViewModel;
 
 public class QuizViewModel : ObservableObject
 {
     private readonly QuizModel _quizModel;
-    public QuizViewModel (QuizModel quizModel)
+    private readonly NavigationManager _navigationManager;
+    public QuizViewModel (QuizModel quizModel, NavigationManager navigationManager)
     {
-        //Sätter fältet _demoModel till den inskickade instansen av DemoModel så den blir åtkomlig
+       
         _quizModel = quizModel;
 
-        //Tilldelar en instans av DemoCommand till propertyn UpdateCommand
-        //UpdateCommand = new RelayCommand(() => MyTextReversed = demoModel.ReverseMyText(), () => true);
+        _navigationManager = navigationManager;
     }
 }
