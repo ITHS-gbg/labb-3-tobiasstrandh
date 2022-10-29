@@ -63,7 +63,7 @@ public class QuizModel
     {
         qTitle += $".json";
 
-        _title = qTitle;
+        _title = qTitle.ToLower();
 
         await Task.Run(() =>
         {
@@ -88,7 +88,7 @@ public class QuizModel
             }
         });
 
-        GetRandomQuestion();
+        
     }
 
     public QuestionModel RandomQuestion { get; set; }
@@ -98,7 +98,7 @@ public class QuizModel
     {
         qTitle += $".json";
 
-        _title = qTitle;
+        _title = qTitle.ToLower();
     }
 
     public QuizModel()

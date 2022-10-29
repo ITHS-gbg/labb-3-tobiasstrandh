@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Threading.Tasks;
+using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Labb3_NET22.DataModels;
@@ -24,15 +25,19 @@ public class ChooseQuizViewModel : ObservableObject
 
         ReturnToStartViewCommand = new RelayCommand(() => _navigationManager.CurrentViewModel = new StartViewModel(_quizModel, _navigationManager));
 
-        SaveTitleCommand = new RelayCommand(() => GoToQuizView());
-        GoToQuizViewCommand = new RelayCommand(() => _navigationManager.CurrentViewModel = new QuizViewModel(_quizModel, _navigationManager));
         
+        
+        GoToQuizViewCommand = new RelayCommand(() => GoToQuizView());
+
     }
 
-    public void GoToQuizView()
+    public async Task GoToQuizView()
     {
         _quizModel.DownloadJson(QuizTitle);
-       
+        await Task.Delay(100);
+        _quizModel.GetRandomQuestion();
+        await Task.Delay(100);
+        _navigationManager.CurrentViewModel = new QuizViewModel(_quizModel, _navigationManager);
     }
 
 
