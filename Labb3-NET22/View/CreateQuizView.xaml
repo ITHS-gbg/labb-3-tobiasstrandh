@@ -1,24 +1,26 @@
-﻿<UserControl x:Class="Labb3_NET22.View.CreateQuizView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Labb3_NET22.View"
-             xmlns:viewModels="clr-namespace:Labb3_NET22.ViewModel"
-             d:DataContext="{d:DesignInstance viewModels:CreateQuizViewModel}"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+﻿<UserControl
+    x:Class="Labb3_NET22.View.CreateQuizView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Labb3_NET22.View"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:Labb3_NET22.ViewModel"
+    d:DataContext="{d:DesignInstance viewModels:CreateQuizViewModel}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
     <Grid Background="#FF656565">
         <Grid.RowDefinitions>
             <RowDefinition Height="0.3*" />
             <RowDefinition Height="1.0*" />
-            <RowDefinition Height="0.3*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="0.3*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="0.3*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="0.3*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="0.3*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="0.3*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="0.1*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -30,7 +32,7 @@
             Grid.Row="3"
             Grid.Column="0"
             FontSize="18"
-            Text="{Binding :QuizTitle}" 
+            Text="{Binding :QuizTitle}"
             >
 
 
@@ -40,15 +42,14 @@
             Grid.Row="1"
             Grid.Column="1"
             FontSize="18"
-            Text="{Binding QuizTitle, UpdateSourceTrigger=PropertyChanged}"
-            >
-
-        </TextBox>
+            IsEnabled="{Binding CantChangeTitle}"
+            Text="{Binding QuizTitle, UpdateSourceTrigger=PropertyChanged}" />
 
         <TextBlock
             Grid.Row="0"
             Grid.Column="1"
-            FontSize="18" HorizontalAlignment="Center">
+            HorizontalAlignment="Center"
+            FontSize="18">
             Title for your Quiz
         </TextBlock>
 
@@ -56,15 +57,14 @@
             Grid.Row="3"
             Grid.Column="1"
             FontSize="18"
-            Text="{Binding QuizStatment, UpdateSourceTrigger=PropertyChanged}"
-            >
-            
-        </TextBox>
+            IsEnabled="{Binding CanFillQuestionBoxes}"
+            Text="{Binding QuizStatment, UpdateSourceTrigger=PropertyChanged}" />
 
         <TextBlock
             Grid.Row="2"
             Grid.Column="1"
-            FontSize="18" HorizontalAlignment="Center">
+            HorizontalAlignment="Center"
+            FontSize="18">
             Question
         </TextBlock>
 
@@ -72,14 +72,14 @@
             Grid.Row="5"
             Grid.Column="0"
             FontSize="18"
-            Text="{Binding QuizAnswerOne, UpdateSourceTrigger=PropertyChanged}">
-
-        </TextBox>
+            IsEnabled="{Binding CanFillQuestionBoxes}"
+            Text="{Binding QuizAnswerOne, UpdateSourceTrigger=PropertyChanged}" />
 
         <TextBlock
             Grid.Row="4"
             Grid.Column="1"
-            FontSize="18" HorizontalAlignment="Center">
+            HorizontalAlignment="Center"
+            FontSize="18">
             Answer 2
         </TextBlock>
 
@@ -87,15 +87,14 @@
             Grid.Row="5"
             Grid.Column="1"
             FontSize="18"
-            Text="{Binding QuizAnswerTwo, UpdateSourceTrigger=PropertyChanged}"
-            >
-            
-        </TextBox>
+            IsEnabled="{Binding CanFillQuestionBoxes}"
+            Text="{Binding QuizAnswerTwo, UpdateSourceTrigger=PropertyChanged}" />
 
         <TextBlock
             Grid.Row="4"
             Grid.Column="0"
-            FontSize="18" HorizontalAlignment="Center">
+            HorizontalAlignment="Center"
+            FontSize="18">
             Answer 1
         </TextBlock>
 
@@ -103,23 +102,24 @@
             Grid.Row="5"
             Grid.Column="2"
             FontSize="18"
-            Text="{Binding QuizAnswerThree, UpdateSourceTrigger=PropertyChanged}">
-            
-        </TextBox>
+            IsEnabled="{Binding CanFillQuestionBoxes}"
+            Text="{Binding QuizAnswerThree, UpdateSourceTrigger=PropertyChanged}" />
 
         <TextBlock
             Grid.Row="4"
             Grid.Column="2"
-            FontSize="18" HorizontalAlignment="Center">
+            HorizontalAlignment="Center"
+            FontSize="18">
             Answer 3
         </TextBlock>
 
         <TextBlock
             Grid.Row="6"
-            Grid.ColumnSpan="2"
             Grid.Column="1"
-            FontSize="18" HorizontalAlignment="Left">
-            Chose for correct the answer (0 = 1 , 1 = 2 , 2 = 3) 
+            Grid.ColumnSpan="2"
+            HorizontalAlignment="Left"
+            FontSize="18">
+            Chose for correct the answer (0 = 1 , 1 = 2 , 2 = 3)
         </TextBlock>
 
         <!--<TextBox
@@ -132,37 +132,54 @@
 
         <RadioButton
             Grid.Row="7"
-            Grid.Column="0" Width="50" Height="50"
-            
-            IsChecked="{Binding CorrectAnswerOne}"
-        ></RadioButton>
+            Grid.Column="0"
+            Width="50"
+            Height="50"
+            IsEnabled="{Binding CanFillQuestionBoxes}"
+            IsChecked="{Binding CorrectAnswerOne}" />
 
         <RadioButton
             Grid.Row="7"
-            Grid.Column="1" Width="50" Height="50"
-            
-            IsChecked="{Binding CorrectAnswerTwo}"
-            ></RadioButton>
+            Grid.Column="1"
+            Width="50"
+            Height="50"
+            IsEnabled="{Binding CanFillQuestionBoxes}"
+            IsChecked="{Binding CorrectAnswerTwo}" />
 
 
         <RadioButton
             Grid.Row="7"
-            Grid.Column="2" Width="50" Height="50"
-            
-            IsChecked="{Binding CorrectAnswerThree}"
-        ></RadioButton>
+            Grid.Column="2"
+            Width="50"
+            Height="50"
+            IsEnabled="{Binding CanFillQuestionBoxes}"
+            IsChecked="{Binding CorrectAnswerThree}" />
 
 
-        <Button Grid.Row="1"
-                Grid.Column="2"
-                Command="{Binding SendQuestion}"
-                >Save Question and make new questions</Button>
+        <Button
+            Grid.Row="1"
+            Grid.Column="2"
+            Command="{Binding SaveQuestion}"
+            IsEnabled="{Binding CanSaveQuiz}">
+            Save Question
+        </Button>
 
-        <Button Grid.Row="1"
-                Grid.Column="0"
-                FontSize="10"
-                Command="{Binding CreateJson}"
-        >Return To Start</Button>
+        <Button
+            Grid.Row="3"
+            Grid.Column="2"
+            IsEnabled="{Binding CanNewQuestion}"
+            Command="{Binding NewQuestionCommand}">
+            New Question
+        </Button>
+
+        <Button
+            Grid.Row="1"
+            Grid.Column="0"
+            Command="{Binding ReturnToStartViewCommand}"
+            FontSize="10"
+            IsEnabled="{Binding CanCloseCreateQuiz}">
+            Return To Start and Save Quiz
+        </Button>
 
     </Grid>
 </UserControl>

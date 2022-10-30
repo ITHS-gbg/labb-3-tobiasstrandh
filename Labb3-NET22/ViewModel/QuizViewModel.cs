@@ -91,6 +91,7 @@ public class QuizViewModel : ObservableObject
             if (PlayersQuizAnswer == _quizModel.RandomQuestion.CorrectAnswer)
             {
                 QuizAnswer = "Correct";
+                AmountRightAnswers++;
             }
             else
             {
@@ -104,6 +105,7 @@ public class QuizViewModel : ObservableObject
             if (PlayersQuizAnswer == _quizModel.RandomQuestion.CorrectAnswer)
             {
                 QuizAnswer = "Correct";
+                AmountRightAnswers++;
             }
             else
             {
@@ -117,6 +119,7 @@ public class QuizViewModel : ObservableObject
             if (PlayersQuizAnswer == _quizModel.RandomQuestion.CorrectAnswer)
             {
                 QuizAnswer = "Correct";
+                AmountRightAnswers++;
             }
             else
             {
@@ -155,6 +158,36 @@ public class QuizViewModel : ObservableObject
         set
         {
             SetProperty(ref _correctAnswerThree, value);
+        }
+    }
+
+    //public int AmountRightAnswers { get; set; } = 0;
+
+    
+    private int _amountRightAnswers = 0;
+
+    public int AmountRightAnswers
+    {
+        get { return _amountRightAnswers; }
+        set
+        {
+            SetProperty(ref _amountRightAnswers, value);
+        }
+    }
+
+    //public string AmountAnswers { get; set; } = "/10";
+
+    private string _amountAnswers;
+
+    public string AmountAnswers
+    {
+        get
+        {
+            return _amountAnswers = AmountRightAnswers.ToString();
+        }
+        set
+        {
+            SetProperty(ref _amountAnswers, value);
         }
     }
 }
