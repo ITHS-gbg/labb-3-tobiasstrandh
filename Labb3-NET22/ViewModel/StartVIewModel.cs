@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Labb3_NET22.DataModels;
 using Labb3_NET22.Managers;
@@ -9,16 +10,46 @@ public class StartViewModel : ObservableObject
 {
     public IRelayCommand NavigateCreateQuizCommand { get; }
     public IRelayCommand NavigatePlayQuizCommand { get; }
+    public IRelayCommand NavigateEditQuizCommand { get; }
 
     private readonly NavigationManager _navigationManager;
+    private readonly QuizManger _quizManger;
     private readonly QuizModel _quizModel;
-    public StartViewModel( QuizModel quizModel, NavigationManager navigationManager)
+    public StartViewModel( QuizManger quizManger, NavigationManager navigationManager)
     {
-        _quizModel = quizModel;
+        _quizManger = quizManger;
         _navigationManager = navigationManager;
+        DefaultQuiz();
+        //_quizManger.JsonTitleList();
 
-        NavigateCreateQuizCommand = new RelayCommand(() => _navigationManager.CurrentViewModel = new CreateQuizViewModel(_quizModel, _navigationManager));
 
-        NavigatePlayQuizCommand = new RelayCommand(() => _navigationManager.CurrentViewModel = new ChooseQuizViewModel(_quizModel, _navigationManager));
+
+        NavigateCreateQuizCommand = new RelayCommand(() => _navigationManager.CurrentViewModel = new CreateQuizViewModel(_quizManger, _navigationManager));
+
+        NavigatePlayQuizCommand = new RelayCommand(() => _navigationManager.CurrentViewModel = new ChooseQuizViewModel(_quizManger, _navigationManager));
+
+        NavigateEditQuizCommand = new RelayCommand(() => EditView());
+    }
+
+    
+
+    private async Task DefaultQuiz()
+    {
+
+        _quizManger.CurrentQuiz.PopulateDefaultQuiz();
+        //_quizManger.CurrentQuiz.AddTitle("tobbesquiz");
+        await Task.Run((() => _quizManger.JsonDM()));
+        
+
+
+    }
+
+    public async Task EditView()
+    {
+        //_quizManger.CurrentQuiz.AddTitle("tobbesquiz");
+        //_quizManger.DownloadJson();
+        await Task.Delay(100);
+        _navigationManager.CurrentViewModel = new EditViewModel(_quizManger, _navigationManager);
+
     }
 }

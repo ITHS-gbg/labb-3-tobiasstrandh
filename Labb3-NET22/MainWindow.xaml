@@ -24,6 +24,9 @@
             <DataTemplate DataType="{x:Type viewmodels:QuizViewModel}">
                 <views:QuizView />
             </DataTemplate>
+            <DataTemplate DataType="{x:Type viewmodels:EditViewModel}">
+                <views:EditView />
+            </DataTemplate>
         </Grid.Resources>
 
         <ContentControl Content="{Binding CurrentViewModel}" />

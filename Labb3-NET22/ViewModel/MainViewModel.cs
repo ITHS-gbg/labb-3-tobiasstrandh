@@ -7,15 +7,15 @@ namespace Labb3_NET22.ViewModel;
 public class MainViewModel : ObservableObject
 {
     private readonly NavigationManager _navigationManager;
-    private readonly DataManger _dataManager;
+    private readonly QuizManger _quizManager;
 
     public ObservableObject CurrentViewModel => _navigationManager.CurrentViewModel;
 
 
-    public MainViewModel(NavigationManager navigationManager, DataManger dataManager)
+    public MainViewModel(NavigationManager navigationManager, QuizManger quizManager)
     {
         _navigationManager = navigationManager;
-        _dataManager = dataManager;
+        _quizManager = quizManager;
 
         _navigationManager.CurrentViewModelChanged += CurrentViewModelChanged;
     }

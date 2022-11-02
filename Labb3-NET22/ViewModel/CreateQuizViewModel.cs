@@ -18,14 +18,15 @@ public class CreateQuizViewModel : ObservableObject
     public ICommand ReturnToStartViewCommand { get; }
 
     private readonly QuizModel _quizModel;
+    private readonly QuizManger _quizManger;
 
     private readonly QuestionModel _questionModel;
 
     private readonly NavigationManager _navigationManager;
-    public CreateQuizViewModel(QuizModel quizModel, NavigationManager navigationManager)
+    public CreateQuizViewModel(QuizManger quizManger, NavigationManager navigationManager)
     {
-        _quizModel = quizModel;
-
+        _quizManger = quizManger;
+        _quizModel = quizManger.CurrentQuiz;
         _navigationManager = navigationManager;
 
         SaveQuestion = new RelayCommand(AddQ);
@@ -57,9 +58,9 @@ public class CreateQuizViewModel : ObservableObject
     public async Task ReturnToStartView()
     {
         _quizModel.AddTitle(QuizTitle);
-        await Task.Delay(5);
-        _quizModel.Json();
-        _navigationManager.CurrentViewModel = new StartViewModel(_quizModel, _navigationManager);
+        await Task.Delay(100);
+        _quizManger.JsonDM();
+        _navigationManager.CurrentViewModel = new StartViewModel(_quizManger, _navigationManager);
 
 
     }

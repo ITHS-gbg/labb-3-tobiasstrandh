@@ -32,7 +32,7 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             FontSize="18"
-            Text="{Binding QuizStatment}" />
+            Text="{Binding QuizStatment, UpdateSourceTrigger=PropertyChanged}" />
 
         <TextBlock
             Grid.Row="1"
@@ -59,14 +59,14 @@
         <RadioButton
             Grid.Row="2"
             Grid.Column="0" Width="50" Height="50"
-            
+            IsEnabled="{Binding CanFillBoxes}"
             IsChecked="{Binding CorrectAnswerOne}"
         ></RadioButton>
 
         <RadioButton
             Grid.Row="2"
             Grid.Column="2" Width="50" Height="50"
-            
+            IsEnabled="{Binding CanFillBoxes}"
             IsChecked="{Binding CorrectAnswerTwo}" HorizontalAlignment="Center" VerticalAlignment="Center"
         ></RadioButton>
 
@@ -74,12 +74,13 @@
         <RadioButton
             Grid.Row="2"
             Grid.Column="4" Width="50" Height="50"
-            
+            IsEnabled="{Binding CanFillBoxes}"
             IsChecked="{Binding CorrectAnswerThree}"
         ></RadioButton>
 
         <Button Grid.Row="3"
         Grid.Column="4"
+        IsEnabled="{Binding CanNextQuestion, UpdateSourceTrigger=PropertyChanged}"
         Command="{Binding NextQuestion}"
         >Next Q
         </Button>
