@@ -27,40 +27,9 @@ public class QuizModel
 
 
 
-    //public async Task DownloadJson(string qTitle)
-    //{
-    //    qTitle += $".json";
-
-    //    _title = qTitle.ToLower();
-
-    //    await Task.Run(() =>
-    //    {
-    //        var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), Title);
-
-    //        if (File.Exists(path))
-    //        {
-    //            var text = string.Empty;
-    //            string? line = string.Empty;
-
-
-    //            using StreamReader sr = new StreamReader(path);
-
-    //            while ((line = sr.ReadLine()) != null)
-    //            {
-    //                text += line;
-    //            }
-
-    //            Quizquestions = JsonSerializer.Deserialize<List<QuestionModel>>(text)!;
-
-
-    //        }
-    //    });
-
-
-    //}
 
     public QuestionModel RandomQuestion { get; set; }
-    public List<QuestionModel> DeserializedQuiz {get; set; }
+    public List<QuestionModel> DeserializedQuiz {get; set; } = new List<QuestionModel>();
 
 
 
@@ -77,30 +46,15 @@ public class QuizModel
 
     }
 
-    
+
 
     public QuestionModel GetRandomQuestion()
     {
-        //var workItemsToBeUpdated = DeserializedQuiz.Count();
-
-        //var output = db.DeserializedQuiz
-        //    .Last(p => p.Statement)
-        //    .Select(p => p);
-
-        
-        ////var rNext = rand.Next(workItemsToBeUpdated);
-        //RandomQuestion = DeserializedQuiz[rand.Next(workItemsToBeUpdated)];
-
         var rand = new Random();
-        //IEnumerable<QuestionModel> result = DeserializedQuiz.OrderBy(x => rand.Next()).Take(1);
+
         RandomQuestion = DeserializedQuiz[rand.Next(DeserializedQuiz.Count)];
 
-
-        //DeserializedQuiz.OrderBy(x => rand.Next()).Take(1);
-
         return RandomQuestion;
-
-        throw new NotImplementedException("A random Question needs to be returned here!");
     }
 
 
@@ -108,18 +62,17 @@ public class QuizModel
     public void AddQuestion(string statement, int correctAnswer, params string[] answers)
     {
 
-        //var nyfråga = new QuestionModel(statement, answers, correctAnswer);
         _questions = _questions.Concat(new[] { new QuestionModel(statement, answers, correctAnswer) });
 
-
-
-        //throw new NotImplementedException("Question need to be instantiated and added to list of questions here!");
     }
 
     public void RemoveQuestion(int index)
     {
-        throw new NotImplementedException("Question at requested index need to be removed here!");
+        DeserializedQuiz.RemoveAt(index);
+
+        //throw new NotImplementedException("Question at requested index need to be removed here!");
     }
+
 
     public void PopulateDefaultQuiz()
     {
@@ -141,33 +94,6 @@ public class QuizModel
 
 
     }
-
-    //public async Task DefaultQuizJson()
-    //{
-    //    await Task.Run(() =>
-    //    {
-
-    //        var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-    //            "tobbesquiz.json");
-
-    //        if (!File.Exists(path))
-    //        {
-
-
-    //            var json = JsonSerializer.Serialize(DefaultQuestions,
-    //                new JsonSerializerOptions() { WriteIndented = true });
-
-
-    //            using StreamWriter sw = new StreamWriter(path);
-
-
-    //            sw.WriteLine(json);
-
-    //        }
-
-    //    });
-
-    //}
 
 
 

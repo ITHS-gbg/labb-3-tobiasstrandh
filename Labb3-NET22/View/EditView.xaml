@@ -16,30 +16,104 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
 
-        <ListView Grid.Row="2" Grid.RowSpan="2" Grid.Column="2" Grid.ColumnSpan="1" ItemsSource="{Binding QList, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Path= MyQuestion}">
-        <ListView.View>
-<GridView>
-    <GridViewColumn Header="Statment" Width="100" DisplayMemberBinding="{Binding Statement}"></GridViewColumn>
-</GridView>
-        </ListView.View>
+        <ListView
+            Margin="3"
+            Grid.Row="3"
+            Grid.RowSpan="3"
+            Grid.Column="0"
+            Grid.ColumnSpan="1"
+            ItemsSource="{Binding QList, UpdateSourceTrigger=PropertyChanged}"
+            SelectedIndex="{Binding QuestionIndex}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn
+                        Width="150"
+                        DisplayMemberBinding="{Binding Statement, UpdateSourceTrigger=PropertyChanged}"
+                        Header="Statment" />
+                    <GridViewColumn
+                        Width="100"
+                        DisplayMemberBinding="{Binding CorrectAnswer, UpdateSourceTrigger=PropertyChanged}"
+                        Header="CorrectAnswer" />
+                </GridView>
+            </ListView.View>
+           
         </ListView>
 
         <ListView
+            Margin="3"
             Grid.Row="0"
-            Grid.RowSpan="2"
+            Grid.RowSpan="3"
             Grid.Column="0"
             Grid.ColumnSpan="1"
             ItemsSource="{Binding FileTitles}"
-            SelectedItem="{Binding QuizTitle}"/>
+            SelectedItem="{Binding QuizTitle}" 
+            />
 
+        <TextBox
+            Grid.Row="0"
+            Grid.Column="2"
+            Grid.ColumnSpan="3"
+            Margin="5"
+            FontSize="18"
+            IsEnabled="{Binding CanFillQuestionBoxes}"
+            Text="{Binding QuestionStatment}" />
+
+        <TextBox
+            Grid.Row="1"
+            Grid.Column="2"
+            Grid.ColumnSpan="3"
+            Margin="5"
+            FontSize="18"
+            IsEnabled="{Binding CanFillQuestionBoxes}"
+            Text="{Binding QuestionAnswerOne}" />
+
+        <TextBox
+            Grid.Row="2"
+            Grid.Column="2"
+            Grid.ColumnSpan="3"
+            Margin="5"
+            FontSize="18"
+            IsEnabled="{Binding CanFillQuestionBoxes}"
+            Text="{Binding QuestionAnswerTwo}" />
+
+        <TextBox
+            Grid.Row="3"
+            Grid.Column="2"
+            Grid.ColumnSpan="3"
+            Margin="5"
+            FontSize="18"
+            IsEnabled="{Binding CanFillQuestionBoxes}"
+            Text="{Binding QuestionAnswerThree}" />
+
+        <Button
+            Grid.Row="4"
+            Grid.Column="1"
+            Margin="15"
+            Command="{Binding Testa}"
+            FontSize="16">
+            Edit Question
+        </Button>
+
+        <Button
+            Grid.Row="5"
+            Grid.Column="1"
+            Margin="15"
+            Command="{Binding Remove}"
+            FontSize="16">
+            Remove Question
+        </Button>
 
     </Grid>
 </UserControl>
