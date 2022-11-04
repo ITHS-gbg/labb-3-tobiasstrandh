@@ -19,7 +19,9 @@ public class StartViewModel : ObservableObject
     {
         _quizManger = quizManger;
         _navigationManager = navigationManager;
+        _quizModel = _quizManger.CurrentQuiz;
         DefaultQuiz();
+        _quizManger.CurrentQuiz.ClearQuestions();
         //_quizManger.JsonTitleList();
 
 
@@ -38,8 +40,10 @@ public class StartViewModel : ObservableObject
 
         _quizManger.CurrentQuiz.PopulateDefaultQuiz();
         //_quizManger.CurrentQuiz.AddTitle("tobbesquiz");
-        await Task.Run((() => _quizManger.JsonDM()));
-        
+        await Task.Run((() => _quizManger.JsonDefault()));
+        //_navigationManager.CurrentViewModel = new ChooseQuizViewModel(_quizManger, _navigationManager)
+
+
 
 
     }

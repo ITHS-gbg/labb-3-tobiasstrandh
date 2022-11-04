@@ -19,6 +19,9 @@ public class QuestionModel
 
     }
 
-    
+    public override string ToString()
+    {
+        return $"{Statement}";
+    }
 }
 

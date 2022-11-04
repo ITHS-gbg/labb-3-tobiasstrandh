@@ -68,7 +68,7 @@
             Margin="5"
             FontSize="18"
             IsEnabled="{Binding CanFillQuestionBoxes}"
-            Text="{Binding QuestionStatment}" />
+            Text="{Binding QuestionStatment, UpdateSourceTrigger=PropertyChanged}" />
 
         <TextBox
             Grid.Row="1"
@@ -77,7 +77,7 @@
             Margin="5"
             FontSize="18"
             IsEnabled="{Binding CanFillQuestionBoxes}"
-            Text="{Binding QuestionAnswerOne}" />
+            Text="{Binding QuestionAnswerOne, UpdateSourceTrigger=PropertyChanged}" />
 
         <TextBox
             Grid.Row="2"
@@ -86,7 +86,7 @@
             Margin="5"
             FontSize="18"
             IsEnabled="{Binding CanFillQuestionBoxes}"
-            Text="{Binding QuestionAnswerTwo}" />
+            Text="{Binding QuestionAnswerTwo, UpdateSourceTrigger=PropertyChanged}" />
 
         <TextBox
             Grid.Row="3"
@@ -95,7 +95,42 @@
             Margin="5"
             FontSize="18"
             IsEnabled="{Binding CanFillQuestionBoxes}"
-            Text="{Binding QuestionAnswerThree}" />
+            Text="{Binding QuestionAnswerThree, UpdateSourceTrigger=PropertyChanged}" />
+
+        <TextBox
+            Grid.Row="4"
+            Grid.Column="3"
+            Grid.ColumnSpan="1"
+            Margin="5"
+            FontSize="18"
+            IsEnabled="{Binding CanFillQuestionBoxes}"
+            Text="{Binding QuestionCorrectAnswer, UpdateSourceTrigger=PropertyChanged}" />
+
+
+        <RadioButton
+            Grid.Row="1"
+            Grid.Column="1"
+            Width="50"
+            Height="50"
+            IsEnabled="{Binding CanFillQuestionBoxes}"
+            IsChecked="{Binding CorrectAnswerOne}" />
+
+        <RadioButton
+            Grid.Row="2"
+            Grid.Column="1"
+            Width="50"
+            Height="50"
+            IsEnabled="{Binding CanFillQuestionBoxes}"
+            IsChecked="{Binding CorrectAnswerTwo}" />
+
+
+        <RadioButton
+            Grid.Row="3"
+            Grid.Column="1"
+            Width="50"
+            Height="50"
+            IsEnabled="{Binding CanFillQuestionBoxes}"
+            IsChecked="{Binding CorrectAnswerThree}" />
 
         <Button
             Grid.Row="4"
@@ -104,6 +139,15 @@
             Command="{Binding Testa}"
             FontSize="16">
             Edit Question
+        </Button>
+
+        <Button
+            Grid.Row="4"
+            Grid.Column="2"
+            Margin="15"
+            Command="{Binding SaveEdit}"
+            FontSize="16">
+            Save Edit
         </Button>
 
         <Button

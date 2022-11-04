@@ -29,7 +29,9 @@ public class CreateQuizViewModel : ObservableObject
         _quizModel = quizManger.CurrentQuiz;
         _navigationManager = navigationManager;
 
-        SaveQuestion = new RelayCommand(AddQ);
+        //QuizTitle = _quizManger.CurrentQuiz.NewQuiz.Title;
+
+            SaveQuestion = new RelayCommand(AddQ);
 
        //CreateJson = new RelayCommand(() => CreateJ());
 
@@ -38,6 +40,8 @@ public class CreateQuizViewModel : ObservableObject
        NewQuestionCommand = new RelayCommand(() => NewQuestion() );
 
     }
+
+    
 
     public void NewQuestion()
     {
@@ -59,8 +63,9 @@ public class CreateQuizViewModel : ObservableObject
     {
         _quizModel.AddTitle(QuizTitle);
         await Task.Delay(100);
-        _quizManger.JsonDM();
+        await _quizManger.JsonDM();
         _navigationManager.CurrentViewModel = new StartViewModel(_quizManger, _navigationManager);
+       
 
 
     }
@@ -117,7 +122,7 @@ public class CreateQuizViewModel : ObservableObject
     }
 
 
-    private string _quizTitle = String.Empty;
+    private string _quizTitle;
 
     public string QuizTitle
     {

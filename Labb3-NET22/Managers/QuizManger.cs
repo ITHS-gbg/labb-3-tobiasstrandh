@@ -15,14 +15,15 @@ public class QuizManger
 
     public QuizModel CurrentQuiz => _quizModel;
 
-
-
     public async Task JsonDM()
     {
-        var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), $"{CurrentQuiz.Title}.json");
-        var pathDefaultQuiz = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), $"tobbesquiz.json");
 
-        if (!File.Exists(pathDefaultQuiz))
+        
+
+        var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "TobiasQuizApp", $"{CurrentQuiz.Title}.json");
+        var pathDefaultQuiz = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "TobiasQuizApp", $"tobbesquiz.json");
+
+        if (!File.Exists(pathDefaultQuiz) || File.Exists(pathDefaultQuiz))
         {
             
             var json = await Task.Run((() => JsonSerializer.Serialize(CurrentQuiz.DefaultQuestions, new JsonSerializerOptions() { WriteIndented = true })));
@@ -50,14 +51,53 @@ public class QuizManger
             sw.WriteLine(json);
 
         }
-        
-        
+
+        else if(File.Exists(path)) 
+        {
+            var json = await Task.Run((() => JsonSerializer.Serialize(CurrentQuiz.Questions, new JsonSerializerOptions() { WriteIndented = true })));
+
+
+            await using StreamWriter sw = new StreamWriter(path);
+
+
+            sw.WriteLine(json);
+        }
+
+
     }
 
+    public async Task JsonDefault()
+    {
+        var folderPath =
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "TobiasQuizApp");
+
+        if (!Directory.Exists(folderPath))
+        {
+            Directory.CreateDirectory(folderPath);
+        }
+
+        var pathDefaultQuiz = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"TobiasQuizApp", $"tobbesquiz.json");
+
+        if (!File.Exists(pathDefaultQuiz))
+        {
+
+            var json = await Task.Run((() => JsonSerializer.Serialize(CurrentQuiz.DefaultQuestions, new JsonSerializerOptions() { WriteIndented = true })));
+
+
+            await using StreamWriter sw = new StreamWriter(pathDefaultQuiz);
+
+
+            sw.WriteLine(json);
+
+
+        }
+
+
+    }
 
     public async Task<List<string>> JsonTitleList()
     {
-        var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
+        var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"TobiasQuizApp");
         string[] file = Directory.GetFiles(path, "*.json");
 
 
@@ -75,7 +115,7 @@ public class QuizManger
 
         await Task.Run(() =>
         {
-            var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), $"{CurrentQuiz.Title}.json");
+            var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "TobiasQuizApp", $"{CurrentQuiz.Title}.json");
 
 
             if (File.Exists(path))

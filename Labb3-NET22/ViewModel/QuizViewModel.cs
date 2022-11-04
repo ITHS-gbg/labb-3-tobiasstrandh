@@ -62,6 +62,13 @@ public class QuizViewModel : ObservableObject
        // await Task.Delay(10000);
         //_quizManger.CurrentQuiz.GetRandomQuestion();
         CanFillBoxes = true;
+
+       
+
+        if (AmountAnswersTotal == _quizManger.CurrentQuiz.DeserializedQuiz.Count )
+        {
+            _navigationManager.CurrentViewModel = new StartViewModel(_quizManger, _navigationManager);
+        }
     }
 
     private string _quizStatment;

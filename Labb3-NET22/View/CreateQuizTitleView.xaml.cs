@@ -16,15 +16,13 @@ using System.Windows.Shapes;
 namespace Labb3_NET22.View
 {
     /// <summary>
-    /// Interaction logic for CreateQuizView.xaml
+    /// Interaction logic for CreateQuizTitleView.xaml
     /// </summary>
-    public partial class CreateQuizView : UserControl
+    public partial class CreateQuizTitleView : UserControl
     {
-        public CreateQuizView()
+        public CreateQuizTitleView()
         {
             InitializeComponent();
         }
-
-       
     }
 }
