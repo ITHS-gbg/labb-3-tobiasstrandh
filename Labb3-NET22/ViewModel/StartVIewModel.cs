@@ -23,7 +23,7 @@ public class StartViewModel : ObservableObject
         DefaultQuiz();
         _quizManger.CurrentQuiz.ClearQuestions();
         //_quizManger.JsonTitleList();
-
+        _quizManger.CurrentQuiz.RandomNum.Clear();
 
 
         NavigateCreateQuizCommand = new RelayCommand(() => _navigationManager.CurrentViewModel = new CreateQuizViewModel(_quizManger, _navigationManager));

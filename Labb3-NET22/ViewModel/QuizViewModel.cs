@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Labb3_NET22.DataModels;
@@ -28,47 +29,75 @@ public class QuizViewModel : ObservableObject
 
     public async Task NextQ()
     {
-        AmountAnswersTotal = AmountAnswersTotal + 1;
+        AmountAnswersTotal++;
+        
 
-        if (AmountAnswersTotal == 10)
+        if (PlayersQuizAnswer == _quizManger.CurrentQuiz.RandomQuestion.CorrectAnswer)
+        {
+            AmountRightAnswers++;
+        }
+
+        
+        if (AmountAnswersTotal > _quizManger.CurrentQuiz.DeserializedQuiz.Count )
         {
             _navigationManager.CurrentViewModel = new StartViewModel(_quizManger, _navigationManager);
+        }
+
+        if (AmountAnswersTotal == _quizManger.CurrentQuiz.DeserializedQuiz.Count)
+        {
+            ButtonName = "Done with Quiz";
+            CanNextQuestion = true;
+
+            QuizStatment = string.Empty;
+
+            QuizAnswerOne = "string.Empty;";
+            QuizAnswerTwo = string.Empty;
+            QuizAnswerThree = string.Empty;
+
+            CorrectAnswerOne = false;
+            CorrectAnswerTwo = false;
+            CorrectAnswerThree = false;
+
+
+
+            //_navigationManager.CurrentViewModel = new StartViewModel(_quizManger, _navigationManager);
+        }
+
+        
+
+
+        if (AmountAnswersTotal < _quizManger.CurrentQuiz.DeserializedQuiz.Count)
+        {
             
+            //IsItCorrect();
+            //CanFillBoxes = false;
+
+            _quizManger.CurrentQuiz.GetRandomQuestion();
+
+            #region stringEmpty
+            QuizStatment = string.Empty;
+
+            QuizAnswerOne = string.Empty;
+            QuizAnswerTwo = string.Empty;
+            QuizAnswerThree = string.Empty;
+
+            CorrectAnswerOne = false;
+            CorrectAnswerTwo = false;
+            CorrectAnswerThree = false;
+
+            //await Task.Delay(1000);
+            QuizAnswer = string.Empty;
+
+            #endregion
+
+            // await Task.Delay(10000);
+            //_quizManger.CurrentQuiz.GetRandomQuestion();
+            CanFillBoxes = true;
+
+            CanNextQuestion = false;
         }
 
-
-        CanNextQuestion = false;
-        //IsItCorrect();
-        //CanFillBoxes = false;
-
-        _quizManger.CurrentQuiz.GetRandomQuestion();
-
-        #region stringEmpty
-        QuizStatment = string.Empty;
-
-        QuizAnswerOne = string.Empty;
-        QuizAnswerTwo = string.Empty;
-        QuizAnswerThree = string.Empty;
-
-        CorrectAnswerOne = false;
-        CorrectAnswerTwo = false;
-        CorrectAnswerThree = false;
-
-        //await Task.Delay(1000);
-        QuizAnswer = string.Empty;
-
-        #endregion
-
-       // await Task.Delay(10000);
-        //_quizManger.CurrentQuiz.GetRandomQuestion();
-        CanFillBoxes = true;
-
-       
-
-        if (AmountAnswersTotal == _quizManger.CurrentQuiz.DeserializedQuiz.Count )
-        {
-            _navigationManager.CurrentViewModel = new StartViewModel(_quizManger, _navigationManager);
-        }
+        
     }
 
     private string _quizStatment;
@@ -140,7 +169,6 @@ public class QuizViewModel : ObservableObject
             if (PlayersQuizAnswer == _quizManger.CurrentQuiz.RandomQuestion.CorrectAnswer)
             {
                 QuizAnswer = "Correct";
-                AmountRightAnswers = AmountRightAnswers + 1;
                 CanNextQuestion = true;
                 CanFillBoxes = false;
             }
@@ -158,7 +186,6 @@ public class QuizViewModel : ObservableObject
             if (PlayersQuizAnswer == _quizManger.CurrentQuiz.RandomQuestion.CorrectAnswer)
             {
                 QuizAnswer = "Correct";
-                AmountRightAnswers = AmountRightAnswers + 1;
                 CanNextQuestion = true;
                 CanFillBoxes = false;
             }
@@ -176,7 +203,6 @@ public class QuizViewModel : ObservableObject
             if (PlayersQuizAnswer == _quizManger.CurrentQuiz.RandomQuestion.CorrectAnswer)
             {
                 QuizAnswer = "Correct";
-                AmountRightAnswers = AmountRightAnswers + 1;
                 CanNextQuestion = true;
                 CanFillBoxes = false;
             }
@@ -244,7 +270,15 @@ public class QuizViewModel : ObservableObject
     //public string AmountAnswers { get; set; } = "/10";
 
 
-    public int AmountAnswersTotal { get; set; } = 0;
+    
+
+    private int _amountAnswersTotal;
+
+    public int AmountAnswersTotal
+    {
+        get { return _amountAnswersTotal; }
+        set { SetProperty(ref _amountAnswersTotal, value);  }
+    }
 
     //private int _amountAnswers;
 
@@ -275,4 +309,13 @@ public class QuizViewModel : ObservableObject
         get { return _canNextQuestion; }
         set { SetProperty(ref _canNextQuestion, value); }
     }
+
+    private string _buttonName = "Next Question";
+
+    public string ButtonName
+    {
+        get { return _buttonName; }
+        set { SetProperty(ref _buttonName, value);  }
+    }
+
 }

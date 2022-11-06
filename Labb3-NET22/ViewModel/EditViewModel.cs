@@ -27,6 +27,7 @@ public class EditViewModel : ObservableObject
         Testa = new RelayCommand(() => haha());
         Remove = new RelayCommand(() => Rem());
         SaveEdit = new RelayCommand(() => Save());
+        AddNewQuestionCommand = new RelayCommand(() => AddNewQuestion());
     }
 
     public async Task Save()
@@ -52,6 +53,8 @@ public class EditViewModel : ObservableObject
     public ICommand Remove { get; } //set?
 
     public ICommand SaveEdit { get; } //set?
+
+    public ICommand AddNewQuestionCommand { get; } //set?
     public async Task LoadListViewM()
     {
         FileTitles = await _quizManger.JsonTitleList();
@@ -78,6 +81,7 @@ public class EditViewModel : ObservableObject
         {
             SetProperty(ref _quizTitle, value);
             SetList();
+            CanAddNewQuestion = true;
 
         }
     }
@@ -90,6 +94,26 @@ public class EditViewModel : ObservableObject
         //await Task.Run( (() => QList = _quiz.DeserializedQuiz ));
         QList = _quiz.DeserializedQuiz;
     }
+
+    public async Task AddNewQuestion()
+    {
+        var QuizAnswers = new string[] { QuestionAnswerOne, QuestionAnswerTwo, QuestionAnswerThree };
+
+        await _quizManger.CurrentQuiz.AddInEdit();
+
+        await Task.Run((() => _quizManger.CurrentQuiz.AddQuestion(QuestionStatment, QuestionCorrectAnswer, QuizAnswers)));
+
+        await _quizManger.JsonDM();
+        
+        QuestionStatment = string.Empty;
+
+        QuestionAnswerOne = string.Empty;
+        QuestionAnswerTwo = string.Empty;
+        QuestionAnswerThree = string.Empty;
+
+    }
+
+   
 
     private List<QuestionModel> _qList;
 
@@ -105,9 +129,7 @@ public class EditViewModel : ObservableObject
     public int num { get; set; }
     public void haha()
     {
-        CorrectAnswerOne = false;
-        CorrectAnswerTwo = false;
-        CorrectAnswerThree = false;
+        CanAddNewQuestion = false;
 
         num = Convert.ToInt32(QuestionIndex);
 
@@ -121,20 +143,6 @@ public class EditViewModel : ObservableObject
 
             QuestionCorrectAnswer = QList.ElementAt(num).CorrectAnswer;
 
-            if (QuestionCorrectAnswer == 0)
-            {
-                CorrectAnswerOne = true;
-            }
-
-            if (QuestionCorrectAnswer == 1)
-            {
-                CorrectAnswerOne = true;
-            }
-
-            if (QuestionCorrectAnswer == 2)
-            {
-                CorrectAnswerOne = true;
-            }
         }
     }
 
@@ -193,43 +201,40 @@ public class EditViewModel : ObservableObject
     public int QuestionCorrectAnswer
     {
         get { return _questionCorrectAnswer; }
-        set { SetProperty(ref _questionCorrectAnswer, value); }
-    }
-
-    private bool _correctAnswerOne;
-
-    public bool CorrectAnswerOne
-    {
-        get { return _correctAnswerOne; }
         set
         {
-            SetProperty(ref _correctAnswerOne, value);
-           
+            SetProperty(ref _questionCorrectAnswer, value);
+            CheckQuestionCorrectAnswer();
         }
     }
 
-    private bool _correctAnswerTwo;
-
-    public bool CorrectAnswerTwo
+    public void CheckQuestionCorrectAnswer()
     {
-        get { return _correctAnswerTwo; }
-        set
+        if (QuestionCorrectAnswer == 0 || QuestionCorrectAnswer == 1 || QuestionCorrectAnswer == 2)
         {
-            SetProperty(ref _correctAnswerTwo, value);
-            
+            CanSaveEdit = true;
+        }
+
+        else
+        {
+            CanSaveEdit = false;
         }
     }
 
-    private bool _correctAnswerThree;
+    private bool _canSaveEdit;
 
-    public bool CorrectAnswerThree
+    public bool CanSaveEdit
     {
-        get { return _correctAnswerThree; }
-        set
-        {
-            SetProperty(ref _correctAnswerThree, value);
-            
-        }
+        get { return _canSaveEdit; }
+        set { SetProperty(ref _canSaveEdit, value); }
+    }
+
+    private bool _canAddNewQuestion = false;
+
+    public bool CanAddNewQuestion
+    {
+        get { return _canAddNewQuestion; }
+        set { SetProperty(ref _canAddNewQuestion, value); }
     }
 
     private string _questionIndex;

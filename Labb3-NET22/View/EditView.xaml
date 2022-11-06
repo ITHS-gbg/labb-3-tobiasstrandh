@@ -29,11 +29,11 @@
 
 
         <ListView
-            Margin="3"
             Grid.Row="3"
             Grid.RowSpan="3"
             Grid.Column="0"
             Grid.ColumnSpan="1"
+            Margin="3"
             ItemsSource="{Binding QList, UpdateSourceTrigger=PropertyChanged}"
             SelectedIndex="{Binding QuestionIndex}">
             <ListView.View>
@@ -48,18 +48,24 @@
                         Header="CorrectAnswer" />
                 </GridView>
             </ListView.View>
-           
+
         </ListView>
 
         <ListView
-            Margin="3"
             Grid.Row="0"
             Grid.RowSpan="3"
             Grid.Column="0"
             Grid.ColumnSpan="1"
+            Margin="3"
             ItemsSource="{Binding FileTitles}"
-            SelectedItem="{Binding QuizTitle}" 
-            />
+            SelectedItem="{Binding QuizTitle}" />
+
+        <TextBlock
+            Grid.Column="1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+            Question
+        </TextBlock>
 
         <TextBox
             Grid.Row="0"
@@ -68,7 +74,15 @@
             Margin="5"
             FontSize="18"
             IsEnabled="{Binding CanFillQuestionBoxes}"
-            Text="{Binding QuestionStatment, UpdateSourceTrigger=PropertyChanged}" />
+            Text="{Binding QuestionStatment, UpdateSourceTrigger=PropertyChanged}"
+            TextWrapping="Wrap" />
+
+        <TextBlock Grid.Row="1"
+            Grid.Column="1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+            Answer 1
+        </TextBlock>
 
         <TextBox
             Grid.Row="1"
@@ -77,7 +91,15 @@
             Margin="5"
             FontSize="18"
             IsEnabled="{Binding CanFillQuestionBoxes}"
-            Text="{Binding QuestionAnswerOne, UpdateSourceTrigger=PropertyChanged}" />
+            Text="{Binding QuestionAnswerOne, UpdateSourceTrigger=PropertyChanged}"
+            TextWrapping="Wrap" />
+
+        <TextBlock Grid.Row="2"
+                   Grid.Column="1"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center">
+            Answer 2
+        </TextBlock>
 
         <TextBox
             Grid.Row="2"
@@ -86,7 +108,15 @@
             Margin="5"
             FontSize="18"
             IsEnabled="{Binding CanFillQuestionBoxes}"
-            Text="{Binding QuestionAnswerTwo, UpdateSourceTrigger=PropertyChanged}" />
+            Text="{Binding QuestionAnswerTwo, UpdateSourceTrigger=PropertyChanged}"
+            TextWrapping="Wrap" />
+
+        <TextBlock Grid.Row="3"
+                   Grid.Column="1"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center">
+            Answer 3
+        </TextBlock>
 
         <TextBox
             Grid.Row="3"
@@ -95,45 +125,30 @@
             Margin="5"
             FontSize="18"
             IsEnabled="{Binding CanFillQuestionBoxes}"
-            Text="{Binding QuestionAnswerThree, UpdateSourceTrigger=PropertyChanged}" />
+            Text="{Binding QuestionAnswerThree, UpdateSourceTrigger=PropertyChanged}"
+            TextWrapping="Wrap" />
+
+        <TextBlock Grid.Row="4"
+                   Grid.Column="1"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center">
+            Correct Answer
+        </TextBlock>
 
         <TextBox
             Grid.Row="4"
-            Grid.Column="3"
+            Grid.Column="2"
             Grid.ColumnSpan="1"
             Margin="5"
             FontSize="18"
             IsEnabled="{Binding CanFillQuestionBoxes}"
-            Text="{Binding QuestionCorrectAnswer, UpdateSourceTrigger=PropertyChanged}" />
+            Text="{Binding QuestionCorrectAnswer, UpdateSourceTrigger=PropertyChanged}"
+            TextWrapping="Wrap" />
 
 
-        <RadioButton
-            Grid.Row="1"
-            Grid.Column="1"
-            Width="50"
-            Height="50"
-            IsEnabled="{Binding CanFillQuestionBoxes}"
-            IsChecked="{Binding CorrectAnswerOne}" />
-
-        <RadioButton
-            Grid.Row="2"
-            Grid.Column="1"
-            Width="50"
-            Height="50"
-            IsEnabled="{Binding CanFillQuestionBoxes}"
-            IsChecked="{Binding CorrectAnswerTwo}" />
-
-
-        <RadioButton
-            Grid.Row="3"
-            Grid.Column="1"
-            Width="50"
-            Height="50"
-            IsEnabled="{Binding CanFillQuestionBoxes}"
-            IsChecked="{Binding CorrectAnswerThree}" />
 
         <Button
-            Grid.Row="4"
+            Grid.Row="5"
             Grid.Column="1"
             Margin="15"
             Command="{Binding Testa}"
@@ -142,17 +157,28 @@
         </Button>
 
         <Button
-            Grid.Row="4"
+            Grid.Row="5"
             Grid.Column="2"
             Margin="15"
+            IsEnabled="{Binding CanSaveEdit}"
             Command="{Binding SaveEdit}"
             FontSize="16">
             Save Edit
         </Button>
 
         <Button
+            Grid.Row="4"
+            Grid.Column="4"
+            Margin="15"
+            IsEnabled="{Binding CanAddNewQuestion}"
+            Command="{Binding AddNewQuestionCommand}"
+            FontSize="14">
+            Add new Question
+        </Button>
+
+        <Button
             Grid.Row="5"
-            Grid.Column="1"
+            Grid.Column="3"
             Margin="15"
             Command="{Binding Remove}"
             FontSize="16">

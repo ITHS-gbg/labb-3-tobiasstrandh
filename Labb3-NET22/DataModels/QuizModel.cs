@@ -64,16 +64,24 @@ public class QuizModel
         _questions = temp;
     }
 
-    public List<int> RandomNum { get; set; }
+    public List<int> RandomNum { get; set; } = new List<int>();
     public QuestionModel GetRandomQuestion()
     {
-        
         var rand = new Random();
+
         var randNext = rand.Next(DeserializedQuiz.Count);
 
 
-        //RandomNum.Add(randNext);
-        RandomQuestion = DeserializedQuiz[randNext];
+        if (!RandomNum.Contains(randNext))
+        {
+            RandomNum.Add(randNext);
+            RandomQuestion = DeserializedQuiz[randNext];
+            
+        }
+        else
+        {
+            GetRandomQuestion();
+        }
 
         return RandomQuestion;
     }
@@ -85,6 +93,11 @@ public class QuizModel
 
         _questions = _questions.Concat(new[] { new QuestionModel(statement, answers, correctAnswer) });
 
+    }
+
+    public async Task AddInEdit()
+    {
+        _questions = DeserializedQuiz.AsEnumerable();
     }
 
     public void RemoveQuestion(int index)
@@ -178,7 +191,7 @@ public class QuizModel
             new QuestionModel(
                 "Which did Viking people use as money?",
                 new string[3] { "Rune stones", "Wool", "Jewellery" },
-                1)
+                2)
         });
     }
 
