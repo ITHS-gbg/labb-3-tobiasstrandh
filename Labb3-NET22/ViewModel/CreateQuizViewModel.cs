@@ -63,7 +63,7 @@ public class CreateQuizViewModel : ObservableObject
     {
         _quizModel.AddTitle(QuizTitle);
         await Task.Delay(100);
-        await _quizManger.JsonDM();
+        await _quizManger.JsonSave();
         _navigationManager.CurrentViewModel = new StartViewModel(_quizManger, _navigationManager);
        
 

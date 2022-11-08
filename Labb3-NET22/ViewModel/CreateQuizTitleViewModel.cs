@@ -43,4 +43,5 @@ public class CreateQuizTitleViewModel : ObservableObject
             SetProperty(ref _quizTitle, value);
         }
     }
+
 }

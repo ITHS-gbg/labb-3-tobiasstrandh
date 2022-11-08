@@ -12,29 +12,22 @@ namespace Labb3_NET22.ViewModel;
 
 public class ChooseQuizViewModel : ObservableObject
 {
-    private readonly QuizModel _quizModel;
     private readonly NavigationManager _navigationManager;
     private readonly QuizManger _quizManger;
 
     public ICommand ReturnToStartViewCommand { get; }
     public ICommand GoToQuizViewCommand { get; }
-    public ICommand LoadListView { get; }
 
-    public ICommand SaveTitleCommand { get; }
     public ChooseQuizViewModel(QuizManger quizManger, NavigationManager navigationManager)
     {
         
         
         _navigationManager = navigationManager;
         _quizManger = quizManger;
-        LoadListViewM();
+        LoadListView();
 
-
-        //Lista();
 
         ReturnToStartViewCommand = new RelayCommand(() => _navigationManager.CurrentViewModel = new StartViewModel(_quizManger, _navigationManager));
-
-        LoadListView = new RelayCommand(async () => { FileTitles = await _quizManger.JsonTitleList(); });
 
         GoToQuizViewCommand = new RelayCommand(() => GoToQuizView());
 
@@ -42,45 +35,30 @@ public class ChooseQuizViewModel : ObservableObject
 
     public async Task GoToQuizView()
     {
-        
-        if (QuizTitle == string.Empty)
-        {
-            QuizTitle = "TobbesQuiz";
-        }
 
         _quizManger.CurrentQuiz.AddTitle(QuizTitle);
         await _quizManger.DownloadJson();
-        await Task.Delay(300);
-        
 
-               
 
-        _quizManger.CurrentQuiz.GetRandomQuestion();
-        await Task.Delay(300);
-        _navigationManager.CurrentViewModel = new QuizViewModel(_quizManger, _navigationManager);
+        if (_quizManger.CurrentQuiz.DeserializedQuiz.Count == 0)
+        {
+            _navigationManager.CurrentViewModel = new StartViewModel(_quizManger, _navigationManager);
+        }
+
+        else
+        {
+            _quizManger.CurrentQuiz.GetRandomQuestion();
+
+            _navigationManager.CurrentViewModel = new QuizViewModel(_quizManger, _navigationManager);
+        }
     }
 
-    public async Task LoadListViewM()
+    public async Task LoadListView()
     {
         FileTitles = await _quizManger.JsonTitleList();
        
     }
 
-    public QuizManger MyFiles { get; set; } = new QuizManger();
-
-    //public void Lista()
-    //{
-    //    foreach (var VARIABLE in _quizManger.Files)
-    //    {
-    //        Path.GetFileName(VARIABLE);
-    //    }
-
-    //    //for (int i = 0; i < _quizManger.Files.Length; i++)
-    //    //{
-    //    //    _quizManger.Files[i] = FileTitles[i];
-
-    //    //}
-    //}
 
     private List<string> _fileTitles;
 
@@ -102,29 +80,19 @@ public class ChooseQuizViewModel : ObservableObject
         set
         {
             SetProperty(ref _quizTitle, value);
+            CheckQuizSatus = true;
         }
     }
 
-  
+    private bool _checkQuizSatus = false;
 
-
-    void CheckTitleBox()
+    public bool CheckQuizSatus
     {
-        if (QuizTitle == "" || QuizTitle == " ")
-        {
-            CheckTileBoxSatus = false;
-        }
-    }
-
-    private bool _checkTitleBoxStaus = true;
-
-    public bool CheckTileBoxSatus
-    {
-        get { return _checkTitleBoxStaus; }
+        get { return _checkQuizSatus; }
         set
         {
-            SetProperty(ref _checkTitleBoxStaus, value);
-            CheckTitleBox();
+            SetProperty(ref _checkQuizSatus, value);
         }
     }
+
 }

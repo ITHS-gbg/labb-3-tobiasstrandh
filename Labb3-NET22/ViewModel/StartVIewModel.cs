@@ -21,8 +21,9 @@ public class StartViewModel : ObservableObject
         _navigationManager = navigationManager;
         _quizModel = _quizManger.CurrentQuiz;
         DefaultQuiz();
+
         _quizManger.CurrentQuiz.ClearQuestions();
-        //_quizManger.JsonTitleList();
+     
         _quizManger.CurrentQuiz.RandomNum.Clear();
 
 
@@ -30,30 +31,17 @@ public class StartViewModel : ObservableObject
 
         NavigatePlayQuizCommand = new RelayCommand(() => _navigationManager.CurrentViewModel = new ChooseQuizViewModel(_quizManger, _navigationManager));
 
-        NavigateEditQuizCommand = new RelayCommand(() => EditView());
+        NavigateEditQuizCommand = new RelayCommand(() => _navigationManager.CurrentViewModel = new EditViewModel(_quizManger, _navigationManager));
     }
 
     
 
     private async Task DefaultQuiz()
     {
-
         _quizManger.CurrentQuiz.PopulateDefaultQuiz();
-        //_quizManger.CurrentQuiz.AddTitle("tobbesquiz");
+        
         await Task.Run((() => _quizManger.JsonDefault()));
-        //_navigationManager.CurrentViewModel = new ChooseQuizViewModel(_quizManger, _navigationManager)
-
-
-
-
+        
     }
 
-    public async Task EditView()
-    {
-        //_quizManger.CurrentQuiz.AddTitle("tobbesquiz");
-        //_quizManger.DownloadJson();
-        await Task.Delay(100);
-        _navigationManager.CurrentViewModel = new EditViewModel(_quizManger, _navigationManager);
-
-    }
 }

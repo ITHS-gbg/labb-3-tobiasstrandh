@@ -69,6 +69,11 @@ public class QuizModel
     {
         var rand = new Random();
 
+        if (DeserializedQuiz.Count == 0)
+        {
+            
+        }
+
         var randNext = rand.Next(DeserializedQuiz.Count);
 
 
@@ -104,9 +109,9 @@ public class QuizModel
     {
         var temp = DeserializedQuiz.ToList();
         temp.RemoveAt(index);
-        DeserializedQuiz = temp;
+        _questions = temp;
 
-        _questions = DeserializedQuiz.AsEnumerable();
+        //_questions = DeserializedQuiz.AsEnumerable();
 
         //throw new NotImplementedException("Question at requested index need to be removed here!");
     }
@@ -192,6 +197,86 @@ public class QuizModel
                 "Which did Viking people use as money?",
                 new string[3] { "Rune stones", "Wool", "Jewellery" },
                 2)
+        });
+
+        _defaultQuestions = _defaultQuestions.Concat(new[]
+        {
+            new QuestionModel(
+                "What was the first country to use tanks in combat during World War I?",
+                new string[3] { "France", "Britain", "Germany" },
+                1)
+        });
+
+        _defaultQuestions = _defaultQuestions.Concat(new[]
+        {
+            new QuestionModel(
+                "What is the main component of the sun?",
+                new string[3] { "Liquid lava", "Molten iron", "Gas" },
+                2)
+        });
+
+        _defaultQuestions = _defaultQuestions.Concat(new[]
+        {
+            new QuestionModel(
+                "Goulash is a type of beef soup in which country?",
+                new string[3] { "Hungary", "Czech Republic", "Slovakia" },
+                0)
+        });
+
+        _defaultQuestions = _defaultQuestions.Concat(new[]
+        {
+            new QuestionModel(
+                "Which two months are named after Emperors of the Roman Empire?",
+                new string[3] { "July and August", "May and June", "March and April" },
+                0)
+        });
+
+        _defaultQuestions = _defaultQuestions.Concat(new[]
+        {
+            new QuestionModel(
+                "Which of the following animals can run the fastest?",
+                new string[3] { "Tiger", "Cheetah", "Leopard" },
+                1)
+        });
+
+        _defaultQuestions = _defaultQuestions.Concat(new[]
+        {
+            new QuestionModel(
+                "Where did the powers of Spiderman come from?",
+                new string[3] { "He went through a scientific experiment", "He woke up with them after a dream", "He was bitten by a radioactive spider" },
+                2)
+        });
+
+        _defaultQuestions = _defaultQuestions.Concat(new[]
+        {
+            new QuestionModel(
+                "What is the most points that a player can score with a single throw in darts?",
+                new string[3] { "20", "40", "60" },
+                2)
+        });
+
+        _defaultQuestions = _defaultQuestions.Concat(new[]
+        {
+            new QuestionModel(
+                "In the United States, football is called soccer. So what is American football called in the United Kingdom?",
+                new string[3] { "American football", "Rugby", "Combball" },
+                0)
+        });
+
+        _defaultQuestions = _defaultQuestions.Concat(new[]
+        {
+            new QuestionModel(
+                "Which of the following actors was the first one to play James Bond?",
+                new string[3] { "Sean Connery", "Roger Moore", "Timothy Dalton" },
+                0)
+        });
+
+        _defaultQuestions = _defaultQuestions.Concat(new[]
+        {
+            new QuestionModel(
+                "Which of the following songs was the top-selling hit in 2019?",
+                new string[3] { "Old Town Road", "Someone You Loved", "Bad Guy" },
+                1)
         });
     }
 

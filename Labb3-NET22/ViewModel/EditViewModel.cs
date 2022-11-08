@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -22,10 +23,10 @@ public class EditViewModel : ObservableObject
         _quizManger = quizManger;
         _navigationManager = navigationManager;
         _quiz = _quizManger.CurrentQuiz;
-        LoadListViewM();
+        LoadListView();
 
-        Testa = new RelayCommand(() => haha());
-        Remove = new RelayCommand(() => Rem());
+        
+        Remove = new RelayCommand(() => RemoveQuestion());
         SaveEdit = new RelayCommand(() => Save());
         AddNewQuestionCommand = new RelayCommand(() => AddNewQuestion());
     }
@@ -33,29 +34,41 @@ public class EditViewModel : ObservableObject
     public async Task Save()
     {
         var QuizAnswers = new string[] { QuestionAnswerOne, QuestionAnswerTwo, QuestionAnswerThree };
-        num = Convert.ToInt32(QuestionIndex);
-        _quiz.RemoveQuestion(num);
+       
+        _quiz.RemoveQuestion(QuestionIndex);
         _quiz.AddQuestion(QuestionStatment, QuestionCorrectAnswer, QuizAnswers);
-        await _quizManger.JsonDM();
+        await _quizManger.JsonSave();
     }
-    public async Task Rem()
+    public async Task RemoveQuestion()
     {
-        num = Convert.ToInt32(QuestionIndex); 
-        _quiz.RemoveQuestion(num);
-        await _quizManger.JsonDM();
+        
+        _quiz.RemoveQuestion(QuestionIndex);
+        await _quizManger.JsonSave();
+
+        QuestionStatment = string.Empty;
+
+        QuestionAnswerOne = string.Empty;
+        QuestionAnswerTwo = string.Empty;
+        QuestionAnswerThree = string.Empty;
+
+        CorrectAnswerOne = false;
+        CorrectAnswerTwo = false;
+        CorrectAnswerThree = false;
+
+        SetList();
     }
 
-    //public QuestionModel SelectedQuestion { get; set; } = new QuestionModel();
-    public QuestionModel MyQuestion { get; set; }
+    
+   
 
-    public ICommand Testa { get; } //set?
+    public ICommand FillInBoxesCommand { get; } //set?
 
     public ICommand Remove { get; } //set?
 
     public ICommand SaveEdit { get; } //set?
 
     public ICommand AddNewQuestionCommand { get; } //set?
-    public async Task LoadListViewM()
+    public async Task LoadListView()
     {
         FileTitles = await _quizManger.JsonTitleList();
        
@@ -81,6 +94,7 @@ public class EditViewModel : ObservableObject
         {
             SetProperty(ref _quizTitle, value);
             SetList();
+            //FillInBoxes();
             CanAddNewQuestion = true;
 
         }
@@ -91,19 +105,20 @@ public class EditViewModel : ObservableObject
         _quizManger.CurrentQuiz.AddTitle(QuizTitle);
         await _quizManger.DownloadJson();
        
-        //await Task.Run( (() => QList = _quiz.DeserializedQuiz ));
-        QList = _quiz.DeserializedQuiz;
+        QuestionList = _quiz.DeserializedQuiz;
     }
 
     public async Task AddNewQuestion()
     {
+        Correct();
+
         var QuizAnswers = new string[] { QuestionAnswerOne, QuestionAnswerTwo, QuestionAnswerThree };
 
         await _quizManger.CurrentQuiz.AddInEdit();
 
         await Task.Run((() => _quizManger.CurrentQuiz.AddQuestion(QuestionStatment, QuestionCorrectAnswer, QuizAnswers)));
 
-        await _quizManger.JsonDM();
+        await _quizManger.JsonSave();
         
         QuestionStatment = string.Empty;
 
@@ -111,42 +126,122 @@ public class EditViewModel : ObservableObject
         QuestionAnswerTwo = string.Empty;
         QuestionAnswerThree = string.Empty;
 
+        CorrectAnswerOne = false;
+        CorrectAnswerTwo = false;
+        CorrectAnswerThree = false;
+
+        SetList();
+
     }
 
-   
+    public void Correct()
+    { 
+       if (CorrectAnswerOne == true)
+       {
+           QuestionCorrectAnswer = 0;
+       }
 
-    private List<QuestionModel> _qList;
+       else if (CorrectAnswerTwo == true)
+       {
+           QuestionCorrectAnswer = 1;
+       }
 
-    public List<QuestionModel> QList
+       else if (CorrectAnswerThree == true)
+       {
+           QuestionCorrectAnswer = 2;
+       }
+    }
+
+    private List<QuestionModel> _questionList;
+
+    public List<QuestionModel> QuestionList
     {
-        get { return _qList; }
+        get { return _questionList; }
         set
         {
-            SetProperty(ref _qList, value);
+            SetProperty(ref _questionList, value);
         }
     }
 
-    public int num { get; set; }
-    public void haha()
+    public void FillInBoxes()
     {
-        CanAddNewQuestion = false;
-
-        num = Convert.ToInt32(QuestionIndex);
-
-        if (num >= 0)
+        if (QuestionIndex >= 0)
         {
-            QuestionStatment = QList.ElementAt(num).Statement;
+            QuestionStatment = QuestionList.ElementAt(QuestionIndex).Statement;
 
-            QuestionAnswerOne = QList.ElementAt(num).Answers[0];
-            QuestionAnswerTwo = QList.ElementAt(num).Answers[1];
-            QuestionAnswerThree = QList.ElementAt(num).Answers[2];
+            QuestionAnswerOne = QuestionList.ElementAt(QuestionIndex).Answers[0];
+            QuestionAnswerTwo = QuestionList.ElementAt(QuestionIndex).Answers[1];
+            QuestionAnswerThree = QuestionList.ElementAt(QuestionIndex).Answers[2];
 
-            QuestionCorrectAnswer = QList.ElementAt(num).CorrectAnswer;
+            QuestionCorrectAnswer = QuestionList.ElementAt(QuestionIndex).CorrectAnswer;
+
+            if (QuestionCorrectAnswer == 0)
+            {
+                CorrectAnswerOne = true;
+            }
+
+            else if (QuestionCorrectAnswer == 1)
+            {
+                CorrectAnswerTwo = true;
+            }
+
+            else if (QuestionCorrectAnswer == 2)
+            {
+                CorrectAnswerThree = true;
+            }
 
         }
     }
 
-    
+    private bool _correctAnswerOne;
+
+    public bool CorrectAnswerOne
+    {
+        get { return _correctAnswerOne; }
+        set
+        {
+            SetProperty(ref _correctAnswerOne, value);
+            if (CorrectAnswerOne.Equals(true))
+            {
+                CorrectAnswerTwo = false;
+                CorrectAnswerThree = false;
+            }
+        }
+    }
+
+    private bool _correctAnswerTwo;
+
+    public bool CorrectAnswerTwo
+    {
+        get { return _correctAnswerTwo; }
+        set
+        {
+            SetProperty(ref _correctAnswerTwo, value);
+            if (CorrectAnswerTwo.Equals(true))
+            {
+                CorrectAnswerThree = false;
+                CorrectAnswerOne = false;
+            }
+        }
+    }
+
+    private bool _correctAnswerThree;
+
+    public bool CorrectAnswerThree
+    {
+        get { return _correctAnswerThree; }
+        set
+        {
+            SetProperty(ref _correctAnswerThree, value);
+            if (CorrectAnswerThree.Equals(true))
+            {
+                CorrectAnswerTwo = false;
+                CorrectAnswerOne = false;
+                
+            }
+
+        }
+    }
 
     private string _questionStatment;
 
@@ -204,7 +299,6 @@ public class EditViewModel : ObservableObject
         set
         {
             SetProperty(ref _questionCorrectAnswer, value);
-            CheckQuestionCorrectAnswer();
         }
     }
 
@@ -237,11 +331,15 @@ public class EditViewModel : ObservableObject
         set { SetProperty(ref _canAddNewQuestion, value); }
     }
 
-    private string _questionIndex;
+    private int _questionIndex;
 
-    public string QuestionIndex
+    public int QuestionIndex
     {
         get { return _questionIndex; }
-        set { SetProperty(ref _questionIndex, value); }
+        set
+        {
+            SetProperty(ref _questionIndex, value);
+            FillInBoxes();
+        }
     }
 }

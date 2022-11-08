@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
@@ -13,29 +14,38 @@ public class QuizManger
 {
     private QuizModel _quizModel = new QuizModel();
 
-    public QuizModel CurrentQuiz => _quizModel;
+    public QuizModel CurrentQuiz
+    {
+        get => _quizModel;
+        set
+        {
+            _quizModel = value;
+            CurrentQuizChanged?.Invoke();
+        }
+    }
 
-    public async Task JsonDM()
+    public event Action CurrentQuizChanged;
+
+    public async Task JsonSave()
     {
 
-        
-
         var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "TobiasQuizApp", $"{CurrentQuiz.Title}.json");
-        var pathDefaultQuiz = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "TobiasQuizApp", $"tobbesquiz.json");
 
-        if (!File.Exists(pathDefaultQuiz) || File.Exists(pathDefaultQuiz))
-        {
+        //var pathDefaultQuiz = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "TobiasQuizApp", $"tobbesquiz.json");
+
+        //if (!File.Exists(pathDefaultQuiz) || File.Exists(pathDefaultQuiz))
+        //{
             
-            var json = await Task.Run((() => JsonSerializer.Serialize(CurrentQuiz.DefaultQuestions, new JsonSerializerOptions() { WriteIndented = true })));
+        //    var json = await Task.Run((() => JsonSerializer.Serialize(CurrentQuiz.DefaultQuestions, new JsonSerializerOptions() { WriteIndented = true })));
 
 
-            await using StreamWriter sw = new StreamWriter(pathDefaultQuiz);
+        //    await using StreamWriter sw = new StreamWriter(pathDefaultQuiz);
 
 
-            sw.WriteLine(json);
+        //    sw.WriteLine(json);
 
             
-        }
+        //}
 
         
            
@@ -97,7 +107,7 @@ public class QuizManger
 
     public async Task<List<string>> JsonTitleList()
     {
-        var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"TobiasQuizApp");
+        var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"TobiasQuizApp"); 
         string[] file = Directory.GetFiles(path, "*.json");
 
 
