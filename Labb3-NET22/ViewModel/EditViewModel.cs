@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -22,7 +23,8 @@ public class EditViewModel : ObservableObject
     {
         _quizManger = quizManger;
         _navigationManager = navigationManager;
-        _quiz = _quizManger.CurrentQuiz;
+        
+       // _quizManger.CurrentQuizChanged += DataManagerOnCurrentQuizChanged;
         LoadListView();
 
         
@@ -31,18 +33,26 @@ public class EditViewModel : ObservableObject
         AddNewQuestionCommand = new RelayCommand(() => AddNewQuestion());
     }
 
+    private void DataManagerOnCurrentQuizChanged()
+    {
+        SetList();
+    }
+
+  
     public async Task Save()
     {
         var QuizAnswers = new string[] { QuestionAnswerOne, QuestionAnswerTwo, QuestionAnswerThree };
-       
-        _quiz.RemoveQuestion(QuestionIndex);
-        _quiz.AddQuestion(QuestionStatment, QuestionCorrectAnswer, QuizAnswers);
+
+        _quizManger.CurrentQuiz.EditQuestion(QuestionIndex, QuestionStatment, QuestionCorrectAnswer, QuizAnswers);
+
         await _quizManger.JsonSave();
+
+        SetList();
     }
     public async Task RemoveQuestion()
     {
         
-        _quiz.RemoveQuestion(QuestionIndex);
+        _quizManger.CurrentQuiz.RemoveQuestion(QuestionIndex);
         await _quizManger.JsonSave();
 
         QuestionStatment = string.Empty;
@@ -94,7 +104,7 @@ public class EditViewModel : ObservableObject
         {
             SetProperty(ref _quizTitle, value);
             SetList();
-            //FillInBoxes();
+            
             CanAddNewQuestion = true;
 
         }
@@ -102,10 +112,21 @@ public class EditViewModel : ObservableObject
 
     public async Task SetList()
     {
-        _quizManger.CurrentQuiz.AddTitle(QuizTitle);
-        await _quizManger.DownloadJson();
-       
-        QuestionList = _quiz.DeserializedQuiz;
+        //QuestionStatment = string.Empty;
+
+        //QuestionAnswerOne = string.Empty;
+        //QuestionAnswerTwo = string.Empty;
+        //QuestionAnswerThree = string.Empty;
+
+        //CorrectAnswerOne = false;
+        //CorrectAnswerTwo = false;
+        //CorrectAnswerThree = false;
+
+
+        await _quizManger.DownloadJson(QuizTitle);
+        QuestionList = _quizManger.CurrentQuiz.Questions;
+
+        
     }
 
     public async Task AddNewQuestion()
@@ -114,7 +135,7 @@ public class EditViewModel : ObservableObject
 
         var QuizAnswers = new string[] { QuestionAnswerOne, QuestionAnswerTwo, QuestionAnswerThree };
 
-        await _quizManger.CurrentQuiz.AddInEdit();
+        
 
         await Task.Run((() => _quizManger.CurrentQuiz.AddQuestion(QuestionStatment, QuestionCorrectAnswer, QuizAnswers)));
 
@@ -152,14 +173,15 @@ public class EditViewModel : ObservableObject
        }
     }
 
-    private List<QuestionModel> _questionList;
+    private IEnumerable<QuestionModel> _questionList;
 
-    public List<QuestionModel> QuestionList
+    public IEnumerable<QuestionModel> QuestionList
     {
         get { return _questionList; }
         set
         {
             SetProperty(ref _questionList, value);
+            FillInBoxes();
         }
     }
 
@@ -190,6 +212,21 @@ public class EditViewModel : ObservableObject
                 CorrectAnswerThree = true;
             }
 
+        }
+
+        else
+        {
+            QuestionStatment = String.Empty;
+
+            QuestionAnswerOne = String.Empty;
+            QuestionAnswerTwo = String.Empty;
+            QuestionAnswerThree = String.Empty;
+
+           
+            CorrectAnswerOne = false;
+            CorrectAnswerTwo = false;
+            CorrectAnswerThree = false;
+           
         }
     }
 
@@ -315,7 +352,7 @@ public class EditViewModel : ObservableObject
         }
     }
 
-    private bool _canSaveEdit;
+    private bool _canSaveEdit = true;
 
     public bool CanSaveEdit
     {

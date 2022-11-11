@@ -36,21 +36,20 @@ public class ChooseQuizViewModel : ObservableObject
     public async Task GoToQuizView()
     {
 
-        _quizManger.CurrentQuiz.AddTitle(QuizTitle);
-        await _quizManger.DownloadJson();
+       
+        await _quizManger.DownloadJson(QuizTitle);
 
 
-        if (_quizManger.CurrentQuiz.DeserializedQuiz.Count == 0)
-        {
-            _navigationManager.CurrentViewModel = new StartViewModel(_quizManger, _navigationManager);
-        }
+        //if (_quizManger.CurrentQuiz.DeserializedQuiz.Count == 0)
+        //{
+        //    _navigationManager.CurrentViewModel = new StartViewModel(_quizManger, _navigationManager);
+        //}
 
-        else
-        {
-            _quizManger.CurrentQuiz.GetRandomQuestion();
+       
+            //_quizManger.CurrentQuiz.GetRandomQuestion();
 
             _navigationManager.CurrentViewModel = new QuizViewModel(_quizManger, _navigationManager);
-        }
+        
     }
 
     public async Task LoadListView()

@@ -26,12 +26,12 @@ public class CreateQuizViewModel : ObservableObject
     public CreateQuizViewModel(QuizManger quizManger, NavigationManager navigationManager)
     {
         _quizManger = quizManger;
-        _quizModel = quizManger.CurrentQuiz;
+        
         _navigationManager = navigationManager;
 
         //QuizTitle = _quizManger.CurrentQuiz.NewQuiz.Title;
 
-            SaveQuestion = new RelayCommand(AddQ);
+            SaveQuestion = new RelayCommand(() => AddQ());
 
        //CreateJson = new RelayCommand(() => CreateJ());
 
@@ -61,8 +61,8 @@ public class CreateQuizViewModel : ObservableObject
 
     public async Task ReturnToStartView()
     {
-        _quizModel.AddTitle(QuizTitle);
-        await Task.Delay(100);
+       // _quizModel.AddTitle(QuizTitle);
+        
         await _quizManger.JsonSave();
         _navigationManager.CurrentViewModel = new StartViewModel(_quizManger, _navigationManager);
        
@@ -72,33 +72,48 @@ public class CreateQuizViewModel : ObservableObject
 
   
 
-    void AddQ() // save
+    public async Task AddQ() // save
     {
-       
+        if (SaveButtonName == "Save Title")
+        {
+            _quizManger.CurrentQuiz = new QuizModel(QuizTitle);
+            await _quizManger.JsonSave();
+            
+            SaveButtonName = "Save Question";
+            CanSaveQuiz = false;
+            CantChangeTitle = false;
+            CanFillQuestionBoxes = true;
+        }
 
-        var QuizAnswers = new string[] { QuizAnswerOne, QuizAnswerTwo, QuizAnswerThree };
 
-        Correct();
+        else
+        {
+            var QuizAnswers = new string[] { QuizAnswerOne, QuizAnswerTwo, QuizAnswerThree };
 
-        _quizModel.AddQuestion(QuizStatment, QuizCorrectAnswer, QuizAnswers);
+            Correct();
 
-        #region stringEmpty
-        QuizStatment = string.Empty;
+            _quizManger.CurrentQuiz.AddQuestion(QuizStatment, QuizCorrectAnswer, QuizAnswers);
 
-        QuizAnswerOne = string.Empty;
-        QuizAnswerTwo = string.Empty;
-        QuizAnswerThree = string.Empty;
+            //await _quizManger.JsonSave();
 
-        CorrectAnswerOne = false;
-        CorrectAnswerTwo = false;
-        CorrectAnswerThree = false;
+            #region stringEmpty
+            QuizStatment = string.Empty;
 
-        #endregion
-        CanSaveQuiz = false;
-        CanNewQuestion = true;
-        CanCloseCreateQuiz = true;
-        CantChangeTitle = false;
-        CanFillQuestionBoxes = false;
+            QuizAnswerOne = string.Empty;
+            QuizAnswerTwo = string.Empty;
+            QuizAnswerThree = string.Empty;
+
+            CorrectAnswerOne = false;
+            CorrectAnswerTwo = false;
+            CorrectAnswerThree = false;
+
+            #endregion
+            CanSaveQuiz = false;
+            CanNewQuestion = true;
+            CanCloseCreateQuiz = true;
+            CantChangeTitle = false;
+            CanFillQuestionBoxes = false;
+        }
     }
 
    
@@ -130,8 +145,24 @@ public class CreateQuizViewModel : ObservableObject
         set
         {
             SetProperty(ref _quizTitle, value);
-            CheckAllBoxes();
+            CheckTitleBox();
         }
+    }
+
+    public void CheckTitleBox()
+    {
+        if (QuizTitle != string.Empty)
+        {
+            CanSaveQuiz = true;
+        }
+    }
+
+    private string _saveButtonName = "Save Title";
+
+    public string SaveButtonName
+    {
+        get { return _saveButtonName; }
+        set { SetProperty(ref _saveButtonName, value); }
     }
 
     private string _quizStatment = String.Empty;
@@ -253,7 +284,7 @@ public class CreateQuizViewModel : ObservableObject
         set { SetProperty(ref _canCloseCreateQuiz, value); }
     }
 
-    private bool _canFillQuestionBoxes = true;
+    private bool _canFillQuestionBoxes = false;
 
     public bool CanFillQuestionBoxes
     {
@@ -293,15 +324,6 @@ public class CreateQuizViewModel : ObservableObject
 
 
 
-    //public static void AllAnswers(string QuizAnswerOne, string QuizAnswerTwo, string QuizAnswerThree, out string[] qAnswers)
-    //{
-    //    qAnswers = new string[] { QuizAnswerOne , QuizAnswerTwo, QuizAnswerThree };
-
-    //    //quizAnswers[0] = QuizAnswerOne;
-    //    //quizAnswers[1] = QuizAnswerTwo;
-    //    //quizAnswers[2] = QuizAnswerThree;
-
-    //    //qAnswers 
-    //}
+    
 
 }

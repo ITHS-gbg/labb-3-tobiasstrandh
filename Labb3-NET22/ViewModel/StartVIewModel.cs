@@ -22,9 +22,7 @@ public class StartViewModel : ObservableObject
         _quizModel = _quizManger.CurrentQuiz;
         DefaultQuiz();
 
-        _quizManger.CurrentQuiz.ClearQuestions();
-     
-        _quizManger.CurrentQuiz.RandomNum.Clear();
+        
 
 
         NavigateCreateQuizCommand = new RelayCommand(() => _navigationManager.CurrentViewModel = new CreateQuizViewModel(_quizManger, _navigationManager));
@@ -38,8 +36,10 @@ public class StartViewModel : ObservableObject
 
     private async Task DefaultQuiz()
     {
-        _quizManger.CurrentQuiz.PopulateDefaultQuiz();
-        
+        _quizManger.CurrentQuiz = new QuizModel("tobbesquiz");
+
+        await _quizManger.CurrentQuiz.Pop();
+
         await Task.Run((() => _quizManger.JsonDefault()));
         
     }

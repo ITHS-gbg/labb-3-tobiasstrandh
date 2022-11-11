@@ -160,8 +160,9 @@
             Grid.Row="1"
             Grid.Column="2"
             Command="{Binding SaveQuestion}"
-            IsEnabled="{Binding CanSaveQuiz}">
-            Save Question
+            IsEnabled="{Binding CanSaveQuiz}"
+            Content="{Binding SaveButtonName}">
+            
         </Button>
 
         <Button
