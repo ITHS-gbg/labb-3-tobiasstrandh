@@ -11,8 +11,6 @@ namespace Labb3_NET22.DataModels;
 
 public class QuizModel
 {
-   
-
     private IEnumerable<QuestionModel> _questions;
 
     [JsonInclude]
@@ -255,6 +253,245 @@ public class QuizModel
                 1)
         );
 
+        _questions = _questions.Append(
+
+
+
+            new QuestionModel(
+
+
+
+                "In which country is Transylvania?",
+
+
+
+                new string[3] { "Bulgaria", "Romania", "Serbia" },
+
+
+
+                1)
+
+
+
+        );
+
+
+
+        _questions = _questions.Append(
+
+
+
+                    new QuestionModel(
+
+
+
+                        "Which football club does Jordan Henderson play for?",
+
+
+
+                        new string[3] { "Manchester City", "Liverpool", "Chelsea" },
+
+
+
+                        1)
+
+
+
+                );
+
+
+
+
+
+        _questions = _questions.Append(
+
+
+
+                    new QuestionModel(
+
+
+
+                        "The two biggest exporters of beers in Europe are Germany and …",
+
+
+
+                        new string[3] { "France", "Italy", "Belgium" },
+
+
+
+                        2)
+
+
+
+                );
+
+
+
+        _questions = _questions.Append(
+
+
+
+                    new QuestionModel(
+
+
+
+                        "The phrase: ”I think, therefore I am” was coined by which philosopher?",
+
+
+
+                        new string[3] { "Aristotle", "Plato", "Descartes" },
+
+
+
+                        2)
+
+
+
+                );
+
+
+
+        _questions = _questions.Append(
+
+
+
+                    new QuestionModel(
+
+
+
+                        "In the series “Game of Thrones”, Winterfell is the ancestral home of which family?",
+
+
+
+                        new string[3] { "The Starks", "The Tully’s", "The Lannisters" },
+
+
+
+                        0)
+
+
+
+                );
+
+
+
+        _questions = _questions.Append(
+
+
+
+                    new QuestionModel(
+
+
+
+                        "Who is known as the Patron Saint of Spain?",
+
+
+
+                        new string[3] { "St Patrick", "St Benedict", "St James" },
+
+
+
+                        2)
+
+
+
+                );
+
+
+
+        _questions = _questions.Append(
+
+
+
+                    new QuestionModel(
+
+
+
+                        "What does the term “SOS” commonly stand for?",
+
+
+
+                        new string[3] { "Save Our Ship", "Save Our Seal", "Save Our Souls" },
+
+
+
+                        2)
+
+
+
+                );
+
+
+
+        _questions = _questions.Append(
+
+
+
+                    new QuestionModel(
+
+
+
+                        "Which company is known for publishing the Mario video game?",
+
+
+
+                        new string[3] { "Xbox", "Nintendo", "SEGA" },
+
+
+
+                        1)
+
+
+
+                );
+
+
+
+        _questions = _questions.Append(
+
+
+
+                    new QuestionModel(
+
+
+
+                        "Which was the first film by Disney to be produced in colour?",
+
+
+
+                        new string[3] { "Snow White and the Seven Dwarfs", "Cinderella", "Sleeping Beauty" },
+
+
+
+                        0)
+
+
+
+                );
+
+
+
+        _questions = _questions.Append(
+
+
+
+                    new QuestionModel(
+
+
+
+                        "What is the name of the first book of the Old Testament in the Bible?",
+
+
+
+                        new string[3] { "Genesis", "Matthew", "Proverbs" },
+
+
+
+                        0)
+
+
+
+                );
 
     }
 
