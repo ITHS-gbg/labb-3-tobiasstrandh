@@ -46,7 +46,7 @@
             Grid.Column="1"
             Command="{Binding GoToQuizViewCommand}"
             FontSize="10"
-            IsEnabled="{Binding CheckQuizSatus}">
+            IsEnabled="{Binding CheckQuizStatus}">
             Press here to continue
         </Button>
 

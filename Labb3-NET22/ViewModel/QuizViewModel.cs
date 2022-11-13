@@ -12,11 +12,11 @@ namespace Labb3_NET22.ViewModel;
 
 public class QuizViewModel : ObservableObject
 {
-    private readonly QuizModel _quizModel;
+    
     private readonly NavigationManager _navigationManager;
     private readonly QuizManger _quizManger;
 
-    public ICommand NextQuestion { get; }
+    public ICommand NextQuestionCommand { get; }
 
     public QuizViewModel (QuizManger quizManger, NavigationManager navigationManager)
     {
@@ -27,19 +27,19 @@ public class QuizViewModel : ObservableObject
 
         RandomQuestion();
 
-        NextQuestion = new RelayCommand(() => NextQ());
+        NextQuestionCommand = new RelayCommand(() => NextQuestion());
     }
 
-    public async Task NextQ()
+    public void NextQuestion()
     {
         
         
             AmountAnswersTotal++;
 
 
-        if (PlayersQuizAnswer == CorrrectAnswer)
+        if (PlayersQuestionAnswer == CorrrectAnswer)
         {
-            AmountRightAnswers++;
+            AmountCorrectAnswers++;
         }
 
         var amountQuestions = _quizManger.CurrentQuiz.Questions.ToList();
@@ -56,11 +56,11 @@ public class QuizViewModel : ObservableObject
             ButtonName = "Done with Quiz";
             CanNextQuestion = true;
 
-            QuizStatment = "Press button to go back to start";
+            QuestionStatment = "Press button to go back to start";
 
-            QuizAnswerOne = string.Empty;
-            QuizAnswerTwo = string.Empty;
-            QuizAnswerThree = string.Empty;
+            QuestionAnswerOne = string.Empty;
+            QuestionAnswerTwo = string.Empty;
+            QuestionAnswerThree = string.Empty;
 
             CorrectAnswerOne = false;
             CorrectAnswerTwo = false;
@@ -68,39 +68,29 @@ public class QuizViewModel : ObservableObject
 
 
 
-            //_navigationManager.CurrentViewModel = new StartViewModel(_quizManger, _navigationManager);
+           
         }
-
-
-
-
-
-
-        //IsItCorrect();
-        //CanFillBoxes = false;
-
 
 
         else if (AmountAnswersTotal < amountQuestions.Count)
         {
             #region stringEmpty
-            QuizStatment = string.Empty;
+            QuestionStatment = string.Empty;
 
-            QuizAnswerOne = string.Empty;
-            QuizAnswerTwo = string.Empty;
-            QuizAnswerThree = string.Empty;
+            QuestionAnswerOne = string.Empty;
+            QuestionAnswerTwo = string.Empty;
+            QuestionAnswerThree = string.Empty;
 
             CorrectAnswerOne = false;
             CorrectAnswerTwo = false;
             CorrectAnswerThree = false;
 
-            //await Task.Delay(1000);
-            QuizAnswer = string.Empty;
+            
+            CorrectOrWrongQuestionAnswer = string.Empty;
 
             #endregion
 
-            // await Task.Delay(10000);
-            //_quizManger.CurrentQuiz.GetRandomQuestion();
+            
             CanFillBoxes = true;
 
             CanNextQuestion = false;
@@ -111,17 +101,17 @@ public class QuizViewModel : ObservableObject
     }
 
 
-    public async Task RandomQuestion()
+    public void RandomQuestion()
     {
        
 
         var randomQuestion = _quizManger.CurrentQuiz.GetRandomQuestion();
            
-        QuizStatment = randomQuestion.Statement;
+        QuestionStatment = randomQuestion.Statement;
 
-        QuizAnswerOne = randomQuestion.Answers[0];
-        QuizAnswerTwo = randomQuestion.Answers[1];
-        QuizAnswerThree = randomQuestion.Answers[2];
+        QuestionAnswerOne = randomQuestion.Answers[0];
+        QuestionAnswerTwo = randomQuestion.Answers[1];
+        QuestionAnswerThree = randomQuestion.Answers[2];
 
         CorrrectAnswer = randomQuestion.CorrectAnswer;
         
@@ -129,82 +119,82 @@ public class QuizViewModel : ObservableObject
 
     public int CorrrectAnswer { get; set; }
 
-    private string _quizStatment;
+    private string _questionStatment;
 
-    public string QuizStatment
+    public string QuestionStatment
     {
         get
         {
 
-            return _quizStatment;
+            return _questionStatment;
         }
         set
         {
-            SetProperty(ref _quizStatment, value);
+            SetProperty(ref _questionStatment, value);
         }
     }
 
-    private string _quizAnswerOne;
+    private string _questionAnswerOne;
 
-    public string QuizAnswerOne
+    public string QuestionAnswerOne
     {
-        get { return _quizAnswerOne; }
+        get { return _questionAnswerOne; }
         set
         {
-            SetProperty(ref _quizAnswerOne, value);
+            SetProperty(ref _questionAnswerOne, value);
         }
     }
 
-    private string _quizAnswerTwo;
+    private string _questionAnswerTwo;
 
-    public string QuizAnswerTwo
+    public string QuestionAnswerTwo
     {
-        get { return _quizAnswerTwo;  }
+        get { return _questionAnswerTwo;  }
         set
         {
-            SetProperty(ref _quizAnswerTwo, value);
+            SetProperty(ref _questionAnswerTwo, value);
         }
     }
 
-    private string _quizAnswerThree;
+    private string _questionAnswerThree;
 
-    public string QuizAnswerThree
+    public string QuestionAnswerThree
     {
-        get { return _quizAnswerThree;  }
+        get { return _questionAnswerThree;  }
         set
         {
-            SetProperty(ref _quizAnswerThree, value);
+            SetProperty(ref _questionAnswerThree, value);
         }
     }
 
-    public int PlayersQuizAnswer { get; set; }
+    public int PlayersQuestionAnswer { get; set; }
 
-    private string _quizAnswer = String.Empty;
+    private string _correctOrWrongQuestionAnswer = String.Empty;
 
-    public string QuizAnswer
+    public string CorrectOrWrongQuestionAnswer
     {
-        get { return _quizAnswer; }
+        get { return _correctOrWrongQuestionAnswer; }
         set
         {
-            SetProperty(ref _quizAnswer, value);
+            SetProperty(ref _correctOrWrongQuestionAnswer, value);
         }
     }
-    void IsItCorrect()
+    public void IsItCorrect()
     {
         
 
         if (CorrectAnswerOne == true)
         {
-            PlayersQuizAnswer = 0;
-            if (PlayersQuizAnswer == CorrrectAnswer)
+            PlayersQuestionAnswer = 0;
+            if (PlayersQuestionAnswer == CorrrectAnswer)
             {
-                QuizAnswer = "Correct";
+                CorrectOrWrongQuestionAnswer = "Correct";
                 CanNextQuestion = true;
                 CanFillBoxes = false;
             }
             else
             {
-                QuizAnswer = "Wrong";
+                CorrectOrWrongQuestionAnswer = "Wrong";
                 CanNextQuestion = true;
                 CanFillBoxes = false;
             }
@@ -212,16 +202,16 @@ public class QuizViewModel : ObservableObject
 
         else if (CorrectAnswerTwo == true)
         {
-            PlayersQuizAnswer = 1;
-            if (PlayersQuizAnswer == CorrrectAnswer)
+            PlayersQuestionAnswer = 1;
+            if (PlayersQuestionAnswer == CorrrectAnswer)
             {
-                QuizAnswer = "Correct";
+                CorrectOrWrongQuestionAnswer = "Correct";
                 CanNextQuestion = true;
                 CanFillBoxes = false;
             }
             else
             {
-                QuizAnswer = "Wrong";
+                CorrectOrWrongQuestionAnswer = "Wrong";
                 CanNextQuestion = true;
                 CanFillBoxes = false;
             }
@@ -229,16 +219,16 @@ public class QuizViewModel : ObservableObject
 
         else if (CorrectAnswerThree == true)
         {
-            PlayersQuizAnswer = 2;
-            if (PlayersQuizAnswer == CorrrectAnswer)
+            PlayersQuestionAnswer = 2;
+            if (PlayersQuestionAnswer == CorrrectAnswer)
             {
-                QuizAnswer = "Correct";
+                CorrectOrWrongQuestionAnswer = "Correct";
                 CanNextQuestion = true;
                 CanFillBoxes = false;
             }
             else
             {
-                QuizAnswer = "Wrong";
+                CorrectOrWrongQuestionAnswer = "Wrong";
                 CanNextQuestion = true;
                 CanFillBoxes = false;
             }
@@ -283,21 +273,18 @@ public class QuizViewModel : ObservableObject
         }
     }
 
-    //public int AmountRightAnswers { get; set; } = 0;
 
+    private int _amountCorrectAnswers = 0;
 
-    private int _amountRightAnswers = 0;
-
-    public int AmountRightAnswers
+    public int AmountCorrectAnswers
     {
-        get { return _amountRightAnswers; }
+        get { return _amountCorrectAnswers; }
         set
         {
-            SetProperty(ref _amountRightAnswers, value);
+            SetProperty(ref _amountCorrectAnswers, value);
         }
     }
 
-    //public string AmountAnswers { get; set; } = "/10";
 
 
     
@@ -310,21 +297,7 @@ public class QuizViewModel : ObservableObject
         set { SetProperty(ref _amountAnswersTotal, value);  }
     }
 
-    //private int _amountAnswers;
-
-    //public int AmountAnswers
-    //{
-    //    get
-    //    {
-    //        return _amountAnswers;
-    //    }
-    //    set
-    //    {
-    //        SetProperty(ref _amountAnswers, value);
-    //    }
-    //}
-
-     private bool _canFillBoxes = true;
+    private bool _canFillBoxes = true;
 
     public bool CanFillBoxes
     {

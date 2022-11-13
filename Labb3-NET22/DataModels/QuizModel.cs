@@ -24,7 +24,7 @@ public class QuizModel
     }
 
 
-    private IEnumerable<QuestionModel> _defaultQuestions;
+    private IEnumerable<QuestionModel> _defaultQuestions; //sdoiusahdfisuafbiuasdbfiusdbgfiusdwhgfiusdhfidusgfhdsiugfnbidsughdfuoihgnrfiduh
     public IEnumerable<QuestionModel> DefaultQuestions => _defaultQuestions;
 
     private string _title = string.Empty;
@@ -35,7 +35,6 @@ public class QuizModel
     public QuizModel()
     {
         _questions = new List<QuestionModel>();
-        _defaultQuestions = new List<QuestionModel>();
 
     }
     [JsonConstructor]
@@ -45,21 +44,7 @@ public class QuizModel
         _questions = new List<QuestionModel>();
     }
 
-    public QuestionModel RandomQuestion { get; set; }
     
-
-
-    public void ClearQuestions()
-    {
-        var temp = _questions.ToList();
-
-        for (int i = 0; i < temp.Count; i++)
-        {
-            temp.RemoveAt(i);
-        }
-
-        _questions = temp;
-    }
 
     private List<int> NumberList { get; set; } = new List<int>();
     private QuestionModel Question { get; set; }
@@ -98,39 +83,39 @@ public class QuizModel
 
         RemoveQuestion(index);
 
-        var temp = _questions.ToList();
+        var listOne = _questions.ToList();
 
         
-        List<QuestionModel> temp2 = new List<QuestionModel>();
+        List<QuestionModel> listTwo = new List<QuestionModel>();
 
-        for (int i = 0; i < temp.Count; i++)
+        for (int i = 0; i < listOne.Count; i++)
         {
             if (i == index)
             {
-                temp2.Add(new QuestionModel(statement, answers, correctAnswer));
-                if (i != temp.Count)
+                listTwo.Add(new QuestionModel(statement, answers, correctAnswer));
+                if (i != listOne.Count)
                 {
-                    temp2.Add(temp[i]);
+                    listTwo.Add(listOne[i]);
                 }
             }
 
             else
             {
-                temp2.Add(temp[i]);
+                listTwo.Add(listOne[i]);
             }
         }
 
-        _questions = temp2;
+        _questions = listTwo;
     }
 
     public void RemoveQuestion(int index)
     {
-        var temp = _questions.ToList();
-        temp.RemoveAt(index);
-        _questions = temp;
+        var list = _questions.ToList();
+        list.RemoveAt(index);
+        _questions = list;
 
     }
-    public async Task Pop()
+    public void PopulateDefaultQuiz()
     {
         _questions = _questions.Append(
             new QuestionModel(
@@ -204,7 +189,7 @@ public class QuizModel
         );
     }
 
-    public void PopulateDefaultQuiz()
+    public void pop()
     {
         
 

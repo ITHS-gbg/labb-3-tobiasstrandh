@@ -39,16 +39,16 @@ public class ChooseQuizViewModel : ObservableObject
        
         await _quizManger.DownloadJson(QuizTitle);
 
+        var amountQuestions = _quizManger.CurrentQuiz.Questions.ToList();
+        if (amountQuestions.Count == 0)
+        {
+            _navigationManager.CurrentViewModel = new StartViewModel(_quizManger, _navigationManager);
+        }
 
-        //if (_quizManger.CurrentQuiz.DeserializedQuiz.Count == 0)
-        //{
-        //    _navigationManager.CurrentViewModel = new StartViewModel(_quizManger, _navigationManager);
-        //}
-
-       
-            //_quizManger.CurrentQuiz.GetRandomQuestion();
-
+        else
+        {
             _navigationManager.CurrentViewModel = new QuizViewModel(_quizManger, _navigationManager);
+        }
         
     }
 
@@ -79,18 +79,18 @@ public class ChooseQuizViewModel : ObservableObject
         set
         {
             SetProperty(ref _quizTitle, value);
-            CheckQuizSatus = true;
+            CheckQuizStatus = true;
         }
     }
 
-    private bool _checkQuizSatus = false;
+    private bool _checkQuizStatus = false;
 
-    public bool CheckQuizSatus
+    public bool CheckQuizStatus
     {
-        get { return _checkQuizSatus; }
+        get { return _checkQuizStatus; }
         set
         {
-            SetProperty(ref _checkQuizSatus, value);
+            SetProperty(ref _checkQuizStatus, value);
         }
     }
 

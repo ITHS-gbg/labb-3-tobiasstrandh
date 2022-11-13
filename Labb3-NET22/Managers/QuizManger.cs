@@ -47,7 +47,7 @@ public class QuizManger
 
     }
 
-    public async Task JsonDefault()
+    public async Task JsonDefaultQuizSave()
     {
         var folderPath =
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "TobiasQuizApp");
@@ -80,6 +80,7 @@ public class QuizManger
         var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"TobiasQuizApp"); 
         string[] file = Directory.GetFiles(path, "*.json");
 
+        await Task.Delay(100);
 
         for (int i = 0; i < file.Length; i++)
         {
@@ -90,7 +91,7 @@ public class QuizManger
 
     }
 
-    public async Task DownloadJson(string title) //string title
+    public async Task DownloadJson(string title)
     {
 
         await Task.Run(() =>

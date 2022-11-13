@@ -15,32 +15,35 @@ namespace Labb3_NET22.ViewModel;
 public class EditViewModel : ObservableObject
 {
     private readonly NavigationManager _navigationManager;
-    private readonly QuizModel _quiz;
     private readonly QuizManger _quizManger;
-    private readonly QuestionModel _question;
+   
 
     public EditViewModel(QuizManger quizManger, NavigationManager navigationManager)
     {
         _quizManger = quizManger;
         _navigationManager = navigationManager;
         
-       // _quizManger.CurrentQuizChanged += DataManagerOnCurrentQuizChanged;
+       
         LoadListView();
 
         
-        Remove = new RelayCommand(() => RemoveQuestion());
-        SaveEdit = new RelayCommand(() => Save());
-        AddNewQuestionCommand = new RelayCommand(() => AddNewQuestion());
+        RemoveCommand = new RelayCommand(() => RemoveQuestion());
+        SaveEditCommand = new RelayCommand(() => SaveEdit());
+        GoBackToStartCommand = new RelayCommand(() => _navigationManager.CurrentViewModel = new StartViewModel(_quizManger, _navigationManager));
+        
     }
 
-    private void DataManagerOnCurrentQuizChanged()
-    {
-        SetList();
-    }
+    public ICommand RemoveCommand { get; }
 
-  
-    public async Task Save()
+    public ICommand SaveEditCommand { get; }
+
+    public ICommand GoBackToStartCommand { get; }
+
+
+    public async Task SaveEdit()
     {
+        Correct();
+
         var QuizAnswers = new string[] { QuestionAnswerOne, QuestionAnswerTwo, QuestionAnswerThree };
 
         _quizManger.CurrentQuiz.EditQuestion(QuestionIndex, QuestionStatment, QuestionCorrectAnswer, QuizAnswers);
@@ -68,20 +71,24 @@ public class EditViewModel : ObservableObject
         SetList();
     }
 
-    
+
+    public void CheckButtons()
+    {
+        if (QuestionIndex == null || QuestionIndex < 0)
+        {
+            CanSaveOrRemove = false;
+        }
+
+        else
+        {
+            CanSaveOrRemove = true;
+        }
+    }
+
    
-
-    public ICommand FillInBoxesCommand { get; } //set?
-
-    public ICommand Remove { get; } //set?
-
-    public ICommand SaveEdit { get; } //set?
-
-    public ICommand AddNewQuestionCommand { get; } //set?
     public async Task LoadListView()
     {
         FileTitles = await _quizManger.JsonTitleList();
-       
     }
 
     private List<string> _fileTitles;
@@ -105,55 +112,17 @@ public class EditViewModel : ObservableObject
             SetProperty(ref _quizTitle, value);
             SetList();
             
-            CanAddNewQuestion = true;
+            
 
         }
     }
 
     public async Task SetList()
     {
-        //QuestionStatment = string.Empty;
-
-        //QuestionAnswerOne = string.Empty;
-        //QuestionAnswerTwo = string.Empty;
-        //QuestionAnswerThree = string.Empty;
-
-        //CorrectAnswerOne = false;
-        //CorrectAnswerTwo = false;
-        //CorrectAnswerThree = false;
-
-
         await _quizManger.DownloadJson(QuizTitle);
         QuestionList = _quizManger.CurrentQuiz.Questions;
-
-        
     }
 
-    public async Task AddNewQuestion()
-    {
-        Correct();
-
-        var QuizAnswers = new string[] { QuestionAnswerOne, QuestionAnswerTwo, QuestionAnswerThree };
-
-        
-
-        await Task.Run((() => _quizManger.CurrentQuiz.AddQuestion(QuestionStatment, QuestionCorrectAnswer, QuizAnswers)));
-
-        await _quizManger.JsonSave();
-        
-        QuestionStatment = string.Empty;
-
-        QuestionAnswerOne = string.Empty;
-        QuestionAnswerTwo = string.Empty;
-        QuestionAnswerThree = string.Empty;
-
-        CorrectAnswerOne = false;
-        CorrectAnswerTwo = false;
-        CorrectAnswerThree = false;
-
-        SetList();
-
-    }
 
     public void Correct()
     { 
@@ -187,6 +156,8 @@ public class EditViewModel : ObservableObject
 
     public void FillInBoxes()
     {
+        
+
         if (QuestionIndex >= 0)
         {
             QuestionStatment = QuestionList.ElementAt(QuestionIndex).Statement;
@@ -228,6 +199,8 @@ public class EditViewModel : ObservableObject
             CorrectAnswerThree = false;
            
         }
+
+        CheckButtons();
     }
 
     private bool _correctAnswerOne;
@@ -339,34 +312,17 @@ public class EditViewModel : ObservableObject
         }
     }
 
-    public void CheckQuestionCorrectAnswer()
-    {
-        if (QuestionCorrectAnswer == 0 || QuestionCorrectAnswer == 1 || QuestionCorrectAnswer == 2)
-        {
-            CanSaveEdit = true;
-        }
+    
 
-        else
-        {
-            CanSaveEdit = false;
-        }
+    private bool _canSaveOrRemove = false;
+
+    public bool CanSaveOrRemove
+    {
+        get { return _canSaveOrRemove; }
+        set { SetProperty(ref _canSaveOrRemove, value); }
     }
 
-    private bool _canSaveEdit = true;
-
-    public bool CanSaveEdit
-    {
-        get { return _canSaveEdit; }
-        set { SetProperty(ref _canSaveEdit, value); }
-    }
-
-    private bool _canAddNewQuestion = false;
-
-    public bool CanAddNewQuestion
-    {
-        get { return _canAddNewQuestion; }
-        set { SetProperty(ref _canAddNewQuestion, value); }
-    }
+  
 
     private int _questionIndex;
 
@@ -379,4 +335,6 @@ public class EditViewModel : ObservableObject
             FillInBoxes();
         }
     }
+
+    
 }

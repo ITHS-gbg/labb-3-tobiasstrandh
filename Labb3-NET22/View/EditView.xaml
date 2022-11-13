@@ -135,11 +135,12 @@
             Grid.Row="4"
             Grid.Column="1"
             HorizontalAlignment="Center"
-            VerticalAlignment="Center">
-            Correct Answer
+            VerticalAlignment="Center"
+            TextWrapping="Wrap">
+            Check in the box for right answer
         </TextBlock>
 
-        <TextBox
+        <!--<TextBox
             Grid.Row="4"
             Grid.Column="2"
             Grid.ColumnSpan="1"
@@ -147,7 +148,7 @@
             FontSize="18"
             IsEnabled="{Binding CanFillQuestionBoxes}"
             Text="{Binding QuestionCorrectAnswer, UpdateSourceTrigger=PropertyChanged}"
-            TextWrapping="Wrap" />
+            TextWrapping="Wrap" />-->
 
 
 
@@ -180,26 +181,26 @@
             IsEnabled="{Binding CanFillQuestionBoxes}" />
 
 
-        <Button
+        <!--<Button
             Grid.Row="5"
             Grid.Column="1"
             Margin="15"
             Command="{Binding FillInBoxesCommand}"
             FontSize="16">
             Edit Question
-        </Button>
+        </Button>-->
 
         <Button
             Grid.Row="5"
             Grid.Column="2"
             Margin="15"
-            Command="{Binding SaveEdit}"
+            Command="{Binding SaveEditCommand}"
             FontSize="16"
-            IsEnabled="{Binding CanSaveEdit}">
+            IsEnabled="{Binding CanSaveOrRemove}">
             Save Edit
         </Button>
 
-        <Button
+        <!--<Button
             Grid.Row="4"
             Grid.Column="4"
             Margin="15"
@@ -207,15 +208,25 @@
             FontSize="14"
             IsEnabled="{Binding CanAddNewQuestion}">
             Add new Question
-        </Button>
+        </Button>-->
 
         <Button
             Grid.Row="5"
             Grid.Column="3"
             Margin="15"
-            Command="{Binding Remove}"
-            FontSize="16">
+            Command="{Binding RemoveCommand}"
+            FontSize="16"
+            IsEnabled="{Binding CanSaveOrRemove}">
             Remove Question
+        </Button>
+
+        <Button
+            Grid.Row="5"
+            Grid.Column="4"
+            Margin="15"
+            Command="{Binding GoBackToStartCommand}"
+            FontSize="16">
+            Go back to start
         </Button>
 
     </Grid>

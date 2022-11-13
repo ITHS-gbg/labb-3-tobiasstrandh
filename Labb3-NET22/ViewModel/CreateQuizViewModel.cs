@@ -11,16 +11,15 @@ namespace Labb3_NET22.ViewModel;
 
 public class CreateQuizViewModel : ObservableObject
 {
-    public ICommand SaveQuestion { get; }
+    public ICommand SaveQuestionCommand { get; }
 
     public ICommand NewQuestionCommand { get; }
-    public ICommand CreateJson { get; }
+    
     public ICommand ReturnToStartViewCommand { get; }
 
-    private readonly QuizModel _quizModel;
     private readonly QuizManger _quizManger;
 
-    private readonly QuestionModel _questionModel;
+   
 
     private readonly NavigationManager _navigationManager;
     public CreateQuizViewModel(QuizManger quizManger, NavigationManager navigationManager)
@@ -29,11 +28,8 @@ public class CreateQuizViewModel : ObservableObject
         
         _navigationManager = navigationManager;
 
-        //QuizTitle = _quizManger.CurrentQuiz.NewQuiz.Title;
+        SaveQuestionCommand = new RelayCommand(() => AddQuestion());
 
-            SaveQuestion = new RelayCommand(() => AddQ());
-
-       //CreateJson = new RelayCommand(() => CreateJ());
 
        ReturnToStartViewCommand = new RelayCommand(() => ReturnToStartView());
 
@@ -51,28 +47,16 @@ public class CreateQuizViewModel : ObservableObject
 
     }
 
-    private string _q;
-
-    public string Q
-    {
-        get { return _q; }
-        set { _q = value; }
-    }
 
     public async Task ReturnToStartView()
     {
-       // _quizModel.AddTitle(QuizTitle);
-        
         await _quizManger.JsonSave();
         _navigationManager.CurrentViewModel = new StartViewModel(_quizManger, _navigationManager);
-       
-
-
     }
 
   
 
-    public async Task AddQ() // save
+    public async Task AddQuestion() 
     {
         if (SaveButtonName == "Save Title")
         {
@@ -88,20 +72,20 @@ public class CreateQuizViewModel : ObservableObject
 
         else
         {
-            var QuizAnswers = new string[] { QuizAnswerOne, QuizAnswerTwo, QuizAnswerThree };
+            var QuizAnswers = new string[] { QuestionAnswerOne, QuestionAnswerTwo, QuestionAnswerThree };
 
             Correct();
 
-            _quizManger.CurrentQuiz.AddQuestion(QuizStatment, QuizCorrectAnswer, QuizAnswers);
+            _quizManger.CurrentQuiz.AddQuestion(QuestionStatment, QuestionCorrectAnswer, QuizAnswers);
 
-            //await _quizManger.JsonSave();
+            
 
             #region stringEmpty
-            QuizStatment = string.Empty;
+            QuestionStatment = string.Empty;
 
-            QuizAnswerOne = string.Empty;
-            QuizAnswerTwo = string.Empty;
-            QuizAnswerThree = string.Empty;
+            QuestionAnswerOne = string.Empty;
+            QuestionAnswerTwo = string.Empty;
+            QuestionAnswerThree = string.Empty;
 
             CorrectAnswerOne = false;
             CorrectAnswerTwo = false;
@@ -117,22 +101,22 @@ public class CreateQuizViewModel : ObservableObject
     }
 
    
-    public int QuizCorrectAnswer { get; set; }
+    public int QuestionCorrectAnswer { get; set; }
     void Correct()
     {
         if (CorrectAnswerOne == true)
         {
-            QuizCorrectAnswer = 0;
+            QuestionCorrectAnswer = 0;
         }
 
         else if (CorrectAnswerTwo == true)
         {
-            QuizCorrectAnswer = 1;
+            QuestionCorrectAnswer = 1;
         }
 
         else if (CorrectAnswerThree == true)
         {
-            QuizCorrectAnswer = 2;
+            QuestionCorrectAnswer = 2;
         }
     }
 
@@ -165,50 +149,50 @@ public class CreateQuizViewModel : ObservableObject
         set { SetProperty(ref _saveButtonName, value); }
     }
 
-    private string _quizStatment = String.Empty;
+    private string _questionStatment = String.Empty;
 
-    public string QuizStatment
+    public string QuestionStatment
     {
-        get { return _quizStatment; }
+        get { return _questionStatment; }
         set
         {
-            SetProperty(ref _quizStatment, value);
+            SetProperty(ref _questionStatment, value);
             CheckAllBoxes();
         }
     }
 
-    private string _quizAnswerOne = String.Empty;
+    private string _questionAnswerOne = String.Empty;
 
-    public string QuizAnswerOne
+    public string QuestionAnswerOne
     {
-        get { return _quizAnswerOne; } 
+        get { return _questionAnswerOne; } 
         set
         {
-            SetProperty(ref _quizAnswerOne, value);
+            SetProperty(ref _questionAnswerOne, value);
             CheckAllBoxes();
         }
     }
 
-    private string _quizAnswerTwo = String.Empty;
+    private string _questionAnswerTwo = String.Empty;
 
-    public string QuizAnswerTwo
+    public string QuestionAnswerTwo
     {
-        get { return _quizAnswerTwo; }
+        get { return _questionAnswerTwo; }
         set
         {
-            SetProperty(ref _quizAnswerTwo, value);
+            SetProperty(ref _questionAnswerTwo, value);
             CheckAllBoxes();
         }
     }
 
-    private string _quizAnswerThree = String.Empty;
+    private string _questionAnswerThree = String.Empty;
 
-    public string QuizAnswerThree
+    public string QuestionAnswerThree
     {
-        get { return _quizAnswerThree; }
+        get { return _questionAnswerThree; }
         set
         {
-            SetProperty(ref _quizAnswerThree, value);
+            SetProperty(ref _questionAnswerThree, value);
             CheckAllBoxes();
         }
     }
@@ -217,13 +201,13 @@ public class CreateQuizViewModel : ObservableObject
 
     public void CheckAllBoxes()
     {
-        if (QuizAnswerOne != String.Empty)
+        if (QuestionAnswerOne != String.Empty)
         {
-            if (QuizAnswerTwo != String.Empty )
+            if (QuestionAnswerTwo != String.Empty )
             {
-                if (QuizAnswerThree != String.Empty)
+                if (QuestionAnswerThree != String.Empty)
                 {
-                    if (QuizStatment != String.Empty)
+                    if (QuestionStatment != String.Empty)
                     {
                         if (QuizTitle != String.Empty)
                         {
@@ -316,11 +300,6 @@ public class CreateQuizViewModel : ObservableObject
         set { SetProperty(ref _cantChangeTitle, value); }
     }
 
-    public bool CanItClose { get; set; }
-    void CheckCanClose()
-    {
-
-    }
 
 
 

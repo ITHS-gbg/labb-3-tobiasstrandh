@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Labb3_NET22.DataModels;
@@ -8,18 +9,17 @@ namespace Labb3_NET22.ViewModel;
 
 public class StartViewModel : ObservableObject
 {
-    public IRelayCommand NavigateCreateQuizCommand { get; }
-    public IRelayCommand NavigatePlayQuizCommand { get; }
-    public IRelayCommand NavigateEditQuizCommand { get; }
+    public ICommand NavigateCreateQuizCommand { get; }
+    public ICommand NavigatePlayQuizCommand { get; }
+    public ICommand NavigateEditQuizCommand { get; }
 
     private readonly NavigationManager _navigationManager;
     private readonly QuizManger _quizManger;
-    private readonly QuizModel _quizModel;
     public StartViewModel( QuizManger quizManger, NavigationManager navigationManager)
     {
         _quizManger = quizManger;
         _navigationManager = navigationManager;
-        _quizModel = _quizManger.CurrentQuiz;
+       
         DefaultQuiz();
 
         
@@ -38,9 +38,9 @@ public class StartViewModel : ObservableObject
     {
         _quizManger.CurrentQuiz = new QuizModel("tobbesquiz");
 
-        await _quizManger.CurrentQuiz.Pop();
+        _quizManger.CurrentQuiz.PopulateDefaultQuiz();
 
-        await Task.Run((() => _quizManger.JsonDefault()));
+        await Task.Run((() => _quizManger.JsonDefaultQuizSave()));
         
     }
 

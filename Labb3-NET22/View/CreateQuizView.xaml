@@ -58,7 +58,7 @@
             Grid.Column="1"
             FontSize="18"
             IsEnabled="{Binding CanFillQuestionBoxes}"
-            Text="{Binding QuizStatment, UpdateSourceTrigger=PropertyChanged}" />
+            Text="{Binding QuestionStatment, UpdateSourceTrigger=PropertyChanged}" />
 
         <TextBlock
             Grid.Row="2"
@@ -73,7 +73,7 @@
             Grid.Column="0"
             FontSize="18"
             IsEnabled="{Binding CanFillQuestionBoxes}"
-            Text="{Binding QuizAnswerOne, UpdateSourceTrigger=PropertyChanged}" />
+            Text="{Binding QuestionAnswerOne, UpdateSourceTrigger=PropertyChanged}" />
 
         <TextBlock
             Grid.Row="4"
@@ -88,7 +88,7 @@
             Grid.Column="1"
             FontSize="18"
             IsEnabled="{Binding CanFillQuestionBoxes}"
-            Text="{Binding QuizAnswerTwo, UpdateSourceTrigger=PropertyChanged}" />
+            Text="{Binding QuestionAnswerTwo, UpdateSourceTrigger=PropertyChanged}" />
 
         <TextBlock
             Grid.Row="4"
@@ -103,7 +103,7 @@
             Grid.Column="2"
             FontSize="18"
             IsEnabled="{Binding CanFillQuestionBoxes}"
-            Text="{Binding QuizAnswerThree, UpdateSourceTrigger=PropertyChanged}" />
+            Text="{Binding QuestionAnswerThree, UpdateSourceTrigger=PropertyChanged}" />
 
         <TextBlock
             Grid.Row="4"
@@ -119,32 +119,25 @@
             Grid.ColumnSpan="2"
             HorizontalAlignment="Left"
             FontSize="18">
-            Chose for correct the answer (0 = 1 , 1 = 2 , 2 = 3)
+            Check the box for the right answer
         </TextBlock>
 
-        <!--<TextBox
-            Grid.Row="7"
-            Grid.Column="1"
-            FontSize="18"
-            Text="{Binding QuizCorrectAnswer, UpdateSourceTrigger=PropertyChanged}">
-
-        </TextBox>-->
 
         <RadioButton
             Grid.Row="7"
             Grid.Column="0"
             Width="50"
             Height="50"
-            IsEnabled="{Binding CanFillQuestionBoxes}"
-            IsChecked="{Binding CorrectAnswerOne}" />
+            IsChecked="{Binding CorrectAnswerOne}"
+            IsEnabled="{Binding CanFillQuestionBoxes}" />
 
         <RadioButton
             Grid.Row="7"
             Grid.Column="1"
             Width="50"
             Height="50"
-            IsEnabled="{Binding CanFillQuestionBoxes}"
-            IsChecked="{Binding CorrectAnswerTwo}" />
+            IsChecked="{Binding CorrectAnswerTwo}"
+            IsEnabled="{Binding CanFillQuestionBoxes}" />
 
 
         <RadioButton
@@ -152,24 +145,22 @@
             Grid.Column="2"
             Width="50"
             Height="50"
-            IsEnabled="{Binding CanFillQuestionBoxes}"
-            IsChecked="{Binding CorrectAnswerThree}" />
+            IsChecked="{Binding CorrectAnswerThree}"
+            IsEnabled="{Binding CanFillQuestionBoxes}" />
 
 
         <Button
             Grid.Row="1"
             Grid.Column="2"
-            Command="{Binding SaveQuestion}"
-            IsEnabled="{Binding CanSaveQuiz}"
-            Content="{Binding SaveButtonName}">
-            
-        </Button>
+            Command="{Binding SaveQuestionCommand}"
+            Content="{Binding SaveButtonName}"
+            IsEnabled="{Binding CanSaveQuiz}" />
 
         <Button
             Grid.Row="3"
             Grid.Column="2"
-            IsEnabled="{Binding CanNewQuestion}"
-            Command="{Binding NewQuestionCommand}">
+            Command="{Binding NewQuestionCommand}"
+            IsEnabled="{Binding CanNewQuestion}">
             New Question
         </Button>
 
